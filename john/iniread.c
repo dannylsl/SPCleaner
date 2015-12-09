@@ -6,7 +6,8 @@
 #include <stdarg.h>
 
 #define CONF_FILE_PATH  "Config.ini"
-#define  MAX_PATH 260
+#define MAX_PATH 260
+#define MAX_LEN 1024
 
 char g_szConfigPath[MAX_PATH];
 //获取当前程序目录
@@ -27,65 +28,75 @@ int GetCurrentPath(char buf[],char *pFileName)
     {
         *p = '\0';
         p--;
-} while( '/' != *p );
-p++;
-//配置文件目录
-memcpy(p,pFileName,strlen(pFileName));
-return 0;
+    } while( '/' != *p );
+    p++;
+    //配置文件目录
+    memcpy(p,pFileName,strlen(pFileName));
+    return 0;
 }
 
 //从INI文件读取字符串类型数据
-char *GetIniKeyString(char *title,char *value,char *filename)
+char *GetIniKeyString(char *title,char *key,char *filename)
 {
     FILE *fp;
-    char szLine[1024];
-    static char tmpstr[1024];
-    char keystr[1024];
+    char szLine[MAX_LEN];
+    char szLineTmp[MAX_LEN];
+    static char tmpstr[MAX_LEN]={0};
+
     char rtnval;
     int i = 0;
+    int j = 0;
+    int index = 0;
     int flag = 0;
     char *tmp;
-    char section[1024];
-    char key[1024];
 
-    if(NULL==(fp = fopen(filename, "r")))
+    if(NULL == (fp = fopen(filename, "r")))
     {
         printf("have   no   such   file \n");
         return 0;
     }
-
-    printf("The section name is:\n");
-    scanf("%s",section);
-    printf("The key is:\n");
-    scanf("%s",key);
-
     while(!feof(fp))
     {
+        memset(tmpstr, 0, 1024);
         rtnval = fgetc(fp);
-        if((EOF==rtnval)&&(sizeof(szLine)!=0))
+        if(EOF == rtnval)
         {
             break;
         }
         else
         {
-            szLine[i++] = rtnval;
-        }
-        if(rtnval == '\n')
-        {
-            szLine[--i] = '\0';
+            szLine[i] = rtnval;
+            szLineTmp[i] = rtnval;
+            i++;
             if(('#'==szLine[0])||(';'==szLine[0]))
             {
             }
             else if('/'==szLine[0]&&'/'==szLine[1])
             {
             }
-            else
-                i = 0;
+            //printf("%d",i);
+            //printf("%s,%s ",szLine,szLineTmp);
+        }
+        if(rtnval == '\n')
+        {
+            i--;
+            szLine[i] = '\0';
+            //printf("%d",i);
+            //printf("%s",szLine);
+            szLineTmp[i] = '\0';
+            i = 0;
             tmp = strchr(szLine, '=');
-
+            for(j = 0;j<strlen(szLine);j++)
+            {
+                if(szLineTmp[j] == '=')
+                {
+                    szLineTmp[j] = '\0';
+                    break;
+                }
+            }
             if(( tmp != NULL )&&(flag == 1))
             {
-                if(strstr(szLine,value)!=NULL)
+                if(strcmp(szLineTmp,key) == 0)
                 {
                     //注释行
                     if( ('#' == szLine[0])||(';'==szLine[0]))
@@ -96,18 +107,17 @@ char *GetIniKeyString(char *title,char *value,char *filename)
                     }
                     else
                     {
-                        strncpy(keystr,szLine,(int)(tmp-szLine));
-                        if(strcmp(keystr,key)==0)
-                        {
+                        //找打key对应变量
+                        //strcpy(tmpstr,tmp+1);
+                        tmp++;
+                        while(*tmp != '\n' && *tmp != '\0') {
+                            tmpstr[index] = *tmp;
+                            tmp++;
+                            index++;
                         }
+                        fclose(fp);
+                        return tmpstr;
                     }
-                }
-                else
-                {
-                    //找打value对应变量
-                    strcpy(tmpstr,tmp+1);
-                    fclose(fp);
-                    return tmpstr;
                 }
             }
             else
@@ -115,8 +125,7 @@ char *GetIniKeyString(char *title,char *value,char *filename)
                 strcpy(tmpstr,"[");
                 strcat(tmpstr,title);
                 strcat(tmpstr,"]");
-                if((strncmp(tmpstr,szLine,strlen(tmpstr)) == 0 )&&
-                        (strncmp(tmpstr,section,strlen(tmpstr)==0)))
+                if(strncmp(tmpstr,szLine,strlen(tmpstr)) == 0 )
                 {
                     //找到title
                     flag = 1;
@@ -129,9 +138,9 @@ char *GetIniKeyString(char *title,char *value,char *filename)
 }
 
 //从INI文件读取整类型数据
-int GetIniKeyInt(char *title,char *value,char *filename)
+int GetIniKeyInt(char *title,char *key,char *filename)
 {
-    return atoi(GetIniKeyString(title,value,filename));
+    return atoi(GetIniKeyString(title,key,filename));
 }
 int main(int argc, char* argv[])
 {
@@ -145,8 +154,8 @@ int main(int argc, char* argv[])
 
     iCatAge = GetIniKeyInt("CAT","age",g_szConfigPath);
     char *a = GetIniKeyString("CAT","name",g_szConfigPath);
-    printf("%d\r\n",iCatAge);
-    printf("%s\r\n",a);
+    printf("%d\n",iCatAge);
+    printf("%s\n",a);
 
     return 0;
 }
