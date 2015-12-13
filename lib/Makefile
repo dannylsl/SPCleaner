@@ -4,7 +4,6 @@ TARGETS=log
 
 all:${TARGETS}
 
-
 SPCLog.o: SPCLog.c SPCLog.h
 	${CC} ${CFLAG} -c $^
 log: log.c SPCLog.o
