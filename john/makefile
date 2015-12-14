@@ -1,2 +1,2 @@
 iniread:iniread.c
-	gcc iniread.c -o iniread
+	gcc iniread.c -o iniread -g

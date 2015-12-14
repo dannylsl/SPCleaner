@@ -68,21 +68,17 @@ char *GetIniKeyString(char *title,char *key,char *filename)
             szLine[i] = rtnval;
             szLineTmp[i] = rtnval;
             i++;
-            if(('#'==szLine[0])||(';'==szLine[0]))
+            if(('#' == szLine[0])||(';' == szLine[0]))
             {
             }
-            else if('/'==szLine[0]&&'/'==szLine[1])
+            else if('/' == szLine[0]&&'/' == szLine[1])
             {
             }
-            //printf("%d",i);
-            //printf("%s,%s ",szLine,szLineTmp);
         }
         if(rtnval == '\n')
         {
             i--;
             szLine[i] = '\0';
-            //printf("%d",i);
-            //printf("%s",szLine);
             szLineTmp[i] = '\0';
             i = 0;
             tmp = strchr(szLine, '=');
