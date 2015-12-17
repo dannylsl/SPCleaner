@@ -74,6 +74,15 @@ int main(int argc, char *argv[]) {
             }
         }
     }
+    unResult = fclose(pRead);
+    if(unResult != 0) {
+        printf("File [pRead] close fail! unResult=[%d]\n", unResult);
+    }
+    unResult = fclose(pCopy);
+    if(unResult != 0) {
+        printf("File [pCopy] close fail! unResult=[%d]\n", unResult);
+    }
+
     size2 = file_size(outputfile);
     effic = (float)size2 / size1 * 100;
     printf("size1 = %ld ,size2 = %ld \n", size1, size2);
