@@ -1,25 +1,25 @@
-/*  copyright 2011-3010, CHINA UNIONPAY DATA SERVICES Co., Ltd.  
+/*  copyright 2011-3010, CHINA UNIONPAY DATA SERVICES Co., Ltd.
  *  All right reserved.
  *
  *  THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF CHINA UNIONPAY CUPDATA
- *  SERVICES CO., LTD.  THE CONTENTS OF THIS FILE MAY NOT 
+ *  SERVICES CO., LTD.  THE CONTENTS OF THIS FILE MAY NOT
  *  BE DISCLOSED TO THIRD PARTIES, COPIED OR DUPLICATED IN ANY FORM,
- *  IN WHOLE OR IN PART, WITHOUT THE PRIOR WRITTEN PERMIStSiON OF 
+ *  IN WHOLE OR IN PART, WITHOUT THE PRIOR WRITTEN PERMIStSiON OF
  *  CHINA UNIONPAY CUPDATA SERVICES CO., LTD.
  *
  *  会计总账更新及会计分录记录
- * 
+ *
  *  Edit History:
- *  版本     日期            修改人       修改内容                
- *  1.0     2011/08/01       徐菁         创建    
+ *  版本     日期            修改人       修改内容
+ *  1.0     2011/08/01       徐菁         创建
  *  1.1     2012/03/05       徐菁         修改 2.2011.04.000
  *                                        CASE-0000-2011-0274 贷记卡农信模式改造
  *  1.2     2012/08/06       徐菁         修改 2.2012.02.000
  *                                        case-xq-0519-20111109 区分个人自助循环贷款业务品种
  *  1.3     2012/08/06       徐菁         修改 2.2012.02.000
- *                                        XYKREQ-6304-2011-0005 呆账核销需求    
+ *                                        XYKREQ-6304-2011-0005 呆账核销需求
  *  1.4     2012/11/18       徐菁         修改 2.2012.05.000
- *                                        CHG-120529-0011       IC卡特色需求 
+ *                                        CHG-120529-0011       IC卡特色需求
  *  1.5     2013/05/10       姚应磊       修改 2.2013.02
  *                                        CHG-130115-0024       渣打银行账务需求开发
  *  1.6     2013/07/08       姚应磊       修改 2.2013.03
@@ -49,8 +49,8 @@
 *  该函数用于会计总账更新及会计分录记录
 *
 *  @Parameters:
-*  输入:      acct_tdef *ptTblAcct 本币账户ACCT表结构体 
-*  输入&输出：L065_io_sdef *ptL065InOut           
+*  输入:      acct_tdef *ptTblAcct 本币账户ACCT表结构体
+*  输入&输出：L065_io_sdef *ptL065InOut
 *  输出：trdef_tdef  *ptTblTrdef  TRDEF表结构体
 *
 *  @return: 0:成功
@@ -79,7 +79,7 @@ int L065_1_trac_opr(UN4 L065_bank,
                     SN11_2 L065_amount,
                     CH *pL065_bankacct,
                     CH *pL065_bankacct1); */
-                    
+
 /*ADD CASE-0000-2011-0274*/
 int L065_1_trac_opr(acct_tdef *ptTblAcct,
                 UN4 L065_trans_type,
@@ -89,7 +89,7 @@ int L065_1_trac_opr(acct_tdef *ptTblAcct,
                 SN11_2 L065_amount,
                 CH *pL065_bankacct,
                 CH *pL065_bankacct1);/*插入或更新总账TRAC*/
-                
+
 /*END ADD CASE-0000-2011-0274*/
 
 /* DEL CASE-0000-2011-0274
@@ -100,7 +100,7 @@ int L065_2_tracb_opr(UN4 L065_bank,
                      CH  L065_tran_status,
                      CH *pL065_trans_src,
                      UN5 L065_proc_day,
-                     SN11_2 L065_amount); */ 
+                     SN11_2 L065_amount); */
 /*ADD CASE-0000-2011-0274*/
 int L065_2_tracb_opr(acct_tdef *ptTblAcct,
                      UN4 L065_trans_type,
@@ -117,16 +117,16 @@ int L065_3_jorj_ins(trdef_tdef  *ptTblTrdef,
                     CH *pL065_bankacct,
                     CH *pL065_bankacc1,
                     L065_io_sdef *ptL065InOut);*/
-                    
-/*ADD CASE-0000-2011-0274*/                  
+
+/*ADD CASE-0000-2011-0274*/
 int L065_3_jorj_ins(acct_tdef *ptTblAcct,
-                        trdef_tdef *ptTblTrdef,                    
+                        trdef_tdef *ptTblTrdef,
                         CH chDescription[36+1],
                         SN4 snBacctcode,
                         CH *pL065_bankacct,
-                        CH *pL065_bankacc1, 
-                        L065_io_sdef *ptL065InOut); /*插入会计分录JORJ*/                   
-/*END ADD CASE-0000-2011-0274*/    
+                        CH *pL065_bankacc1,
+                        L065_io_sdef *ptL065InOut); /*插入会计分录JORJ*/
+/*END ADD CASE-0000-2011-0274*/
 
 /*ADD CHG-120529-0011 IC卡特色交易*/
 int L065_4_bacct_upd(L065_io_sdef *ptL065InOut,
@@ -139,7 +139,7 @@ int L065_5_brno_chg(acct_tdef *ptTblAcct,
                           L065_io_sdef *ptL065InOut);
 /*Begin:added by yyl for CHG-130909-0051*/
 
- /*****************************************************************************/ 
+ /*****************************************************************************/
 int L065_trac_update(acct_tdef *ptTblAcct, L065_io_sdef *ptL065InOut,trdef_tdef  *ptTblTrdef)
 {
     SN6 snResult = 0;
@@ -149,10 +149,10 @@ int L065_trac_update(acct_tdef *ptTblAcct, L065_io_sdef *ptL065InOut,trdef_tdef 
     CH  chBankacc1[20+1];  /*贷方科目,对应原L065-BANKACC1*/
     CH  chB_P_flag[1+1];   /*ADD CASE-0000-2011-0274 P:个人卡, P:公司卡*/
     CH  chDescription[36+1]; /*使用9990/9991交易类型时记录原始交易信息*/
-    
+
     UN4 unTrans_type_bak = 0;
     SN11_2 snAmount_bak = 0;
-    CH cO_R_flag_bak = 'O';  
+    CH cO_R_flag_bak = 'O';
 
     trdef_tdef tTblTrdef;
     trdef_tdef tTblTrdef_bak;
@@ -187,49 +187,49 @@ int L065_trac_update(acct_tdef *ptTblAcct, L065_io_sdef *ptL065InOut,trdef_tdef 
     if(NULL == ptTblAcct)
     {
         CmdLog(LOGWAN, "ptTblAcct is NULL");
-        return  9;      
+        return  9;
     }
-    
+
     if( (0 == CmdGL(ptTblAcct->ROWID)) && (ptL065InOut->unTrans_type >= 1000))
     {
         CmdLog(LOGWAN, "ACCT ROWID is space TRANS_TYPE[%d]", ptL065InOut->unTrans_type);
         return 9;
-    }  
-    
+    }
+
     if(0 == ptL065InOut->unCurr_num)
     {
         CmdLog(LOGWAN, "CURR_NUM error CURR_NUM[%d]", ptL065InOut->unCurr_num);
         return 4;
     }
-    
-    if((ptL065InOut->unCurr_num != ptTblAcct->CURR_NUM) 
-        && (ptL065InOut->unCurr_num != ptTblAcct->CURR_NUM2) 
+
+    if((ptL065InOut->unCurr_num != ptTblAcct->CURR_NUM)
+        && (ptL065InOut->unCurr_num != ptTblAcct->CURR_NUM2)
         && (ptL065InOut->unTrans_type >= 1000))
     {
         CmdLog(LOGWAN, "CURR_NUM error CURR_NUM[%d] BANK[%d] XACCOUNT[%ld] ACCT.CURR_NUM[%d] CURR_NUM2[%d]", \
-            ptL065InOut->unCurr_num, ptTblAcct->BANK, ptTblAcct->XACCOUNT, ptTblAcct->CURR_NUM, ptTblAcct->CURR_NUM2); 
-        return 4;       
+            ptL065InOut->unCurr_num, ptTblAcct->BANK, ptTblAcct->XACCOUNT, ptTblAcct->CURR_NUM, ptTblAcct->CURR_NUM2);
+        return 4;
     }
-    
+
     if(0 == ptL065InOut->unProc_day)
     {
         CmdLog(LOGWAN, "PROC_DAY error PROC_DAY[%d]", ptL065InOut->unProc_day);
-        return 9;        
+        return 9;
     }
-        
+
     if((ptL065InOut->cO_r_flag != 'O') && (ptL065InOut->cO_r_flag != 'R'))
     {
         CmdLog(LOGWAN, "O_R_FLAG error cO_r_flag[%c]", ptL065InOut->cO_r_flag);
         return 3;
     }
-    
+
     if(0 == CmdDblCmp(ptL065InOut->snAmount, 0, 2))
     {
         CmdLog(LOGINF, "AMOUNT is 0 TRANS_SRC[%s] TRANS_TYPE[%d]", ptL065InOut->chTrans_src, \
             ptL065InOut->unTrans_type);
-        return 0;        
+        return 0;
     }
-    
+
     /*DEL CASE-0000-2011-0274
     if((ptL065InOut->cTran_status != 'B') && (ptL065InOut->cTran_status != 'P'))
     {
@@ -244,18 +244,18 @@ int L065_trac_update(acct_tdef *ptTblAcct, L065_io_sdef *ptL065InOut,trdef_tdef 
         CmdLog(LOGWAN, "INP_SOURCE error chClocd[%s] chInp_source[%s]", ptTblAcct->CLOSE_CODE,\
             ptL065InOut->chInp_source);
         return 6;
-    }  
+    }
 
     /*Begin:added by yyl for CHG-130218-0019 on 2013-07-08*/
     snResult = Fbanks(ptTblAcct->BANK, &tTblBanks);
     if((snResult != 0) && (snResult != DB_NOT_FOUND))
     {
-        CmdLog(LOGWAN, "Fbanks error snResult[%ld]", snResult);        
+        CmdLog(LOGWAN, "Fbanks error snResult[%ld]", snResult);
         return -1;
     }
     if(DB_NOT_FOUND == snResult)
     {
-        CmdLog(LOGWAN, "Fbanks error snResult[%ld]", snResult);        
+        CmdLog(LOGWAN, "Fbanks error snResult[%ld]", snResult);
         return 10;   /*cichufanhuicuowuma是否需要*/
     }
 
@@ -264,21 +264,21 @@ int L065_trac_update(acct_tdef *ptTblAcct, L065_io_sdef *ptL065InOut,trdef_tdef 
         snResult = Pprmcnbnk(ptTblAcct->BANK, ptTblAcct->CATEGORY, &tTblPrmcn);
         if((snResult != 0) && (snResult != DB_NOT_FOUND))
         {
-            CmdLog(LOGWAN, "Pprmcnbnk error snResult[%ld]", snResult);        
+            CmdLog(LOGWAN, "Pprmcnbnk error snResult[%ld]", snResult);
             return -1;
         }
         else if(DB_NOT_FOUND == snResult)
         {
-            CmdLog(LOGINF, "Pprmcnbnk not found");        
+            CmdLog(LOGINF, "Pprmcnbnk not found");
             return 10;   /*cichufanhuicuowuma是否需要*/
         }
         else
         {
             snBacctcode = tTblPrmcn.BACCT_CODE;
-        }       
+        }
     }
     /*End:  added by yyl for CHG-130218-0019 on 2013-07-08*/
-   
+
     /*查询TRDEF*/
     memset(&tTblTrdef, 0x00, sizeof(trdef_tdef));
     chO_R_flag[0] = ptL065InOut->cO_r_flag;
@@ -296,14 +296,14 @@ int L065_trac_update(acct_tdef *ptTblAcct, L065_io_sdef *ptL065InOut,trdef_tdef 
         /*记录文件及数据库日志*/
         CmdLog(LOGWAN, "Ptrdef error snResult[%ld] BANK[%d] TRANS_TYPE[%d] CURR_NUM[%d] O_R_FLAG[%c]", \
             snResult, ptTblAcct->BANK, ptL065InOut->unTrans_type, ptL065InOut->unCurr_num, ptL065InOut->cO_r_flag);
-             
+
         /*TRDEF不存在,记录输入交易类型相关信息 BANK + TRANS_TYPE + CURR_NUM +  O_R_FLAG + AMT*/
-        CmdA2A(CmdN2A(&ptTblAcct->BANK, 4, 0, 0, "001"), sizeof(chDescription), chDescription); 
-        CmdATT(CmdN2A(&ptL065InOut->unTrans_type, 4, 0, 0, "001"), 1, sizeof(chDescription), chDescription); 
-        CmdATT(CmdN2A(&ptL065InOut->unCurr_num, 3, 0, 0, "001"), 1, sizeof(chDescription), chDescription);         
-        CmdATT(chO_R_flag, 1, sizeof(chDescription), chDescription); 
-        CmdATT(CmdN2A(&ptL065InOut->snAmount, 11, 2, 1, "010"), 1, sizeof(chDescription), chDescription); 
-        
+        CmdA2A(CmdN2A(&ptTblAcct->BANK, 4, 0, 0, "001"), sizeof(chDescription), chDescription);
+        CmdATT(CmdN2A(&ptL065InOut->unTrans_type, 4, 0, 0, "001"), 1, sizeof(chDescription), chDescription);
+        CmdATT(CmdN2A(&ptL065InOut->unCurr_num, 3, 0, 0, "001"), 1, sizeof(chDescription), chDescription);
+        CmdATT(chO_R_flag, 1, sizeof(chDescription), chDescription);
+        CmdATT(CmdN2A(&ptL065InOut->snAmount, 11, 2, 1, "010"), 1, sizeof(chDescription), chDescription);
+
         /*TRDEF不存在,使用9990-本币或9991-外币替换原有交易类型*/
         if(0 == (ptL065InOut->unTrans_type%2))/*偶数,本币交易*/
         {
@@ -316,7 +316,7 @@ int L065_trac_update(acct_tdef *ptTblAcct, L065_io_sdef *ptL065InOut,trdef_tdef 
 
         if(CmdDblCmp(ptL065InOut->snAmount, 0.00, 2) >= 0)
         {
-            ptL065InOut->cO_r_flag = 'O';            
+            ptL065InOut->cO_r_flag = 'O';
         }
         else
         {
@@ -333,7 +333,7 @@ int L065_trac_update(acct_tdef *ptTblAcct, L065_io_sdef *ptL065InOut,trdef_tdef 
         {
             CmdLog(LOGWAN, "Ptrdef error snResult[%ld]", snResult);
             return -1;
-        }      
+        }
         else if(DB_NOT_FOUND == snResult)
         {
             CmdLog(LOGWAN, "Ptrdef error snResult[%ld] BANK[%d] TRANS_TYPE[%d] CURR_NUM[%d] O_R_FLAG[%s]", \
@@ -350,9 +350,9 @@ int L065_trac_update(acct_tdef *ptTblAcct, L065_io_sdef *ptL065InOut,trdef_tdef 
         {
             /*根据TRDEF.WTRAN_TP查询TRDEF，并加以替换*/
             memcpy(&tTblTrdef_bak, &tTblTrdef, sizeof(trdef_tdef));/*备份TRDEF*/
-            
+
             if((tTblTrdef.WTRAN_TP != 7318) && (tTblTrdef.WTRAN_TP != 7319)    /*ADD XYKREQ-6304-2011-0005*/
-                &&(tTblTrdef.WTRAN_TP != 7320) && (tTblTrdef.WTRAN_TP != 7321))/*ADD XYKREQ-6304-2011-0005*/  
+                &&(tTblTrdef.WTRAN_TP != 7320) && (tTblTrdef.WTRAN_TP != 7321))/*ADD XYKREQ-6304-2011-0005*/
             {
                 snResult = Ptrdef(ptTblAcct->BANK, tTblTrdef.WTRAN_TP, ptL065InOut->unCurr_num, GC_ORIG, &tTblTrdef);
                 if((snResult != 0) && (snResult != DB_NOT_FOUND))
@@ -366,21 +366,21 @@ int L065_trac_update(acct_tdef *ptTblAcct, L065_io_sdef *ptL065InOut,trdef_tdef 
                     unTrans_type_bak = ptL065InOut->unTrans_type;
                     snAmount_bak = ptL065InOut->snAmount;
                     cO_R_flag_bak = ptL065InOut->cO_r_flag;
-                    
+
                     ptL065InOut->unTrans_type = tTblTrdef.TRANS_TYPE;
                     if(ptL065InOut->snAmount < 0)
                     {
                         ptL065InOut->snAmount *= (-1);
                     }
                     ptL065InOut->cO_r_flag = 'O';
-                }  
+                }
                 else if(DB_NOT_FOUND == snResult)
                 {
                     /*如果核销交易类型不存在，则使用原交易类型的TRDEF*/
                     memcpy(&tTblTrdef, &tTblTrdef_bak, sizeof(trdef_tdef));
                     CmdLog(LOGWAN, "TRDEF.WTRAN_TP TRDEF NOT FOUND BANK[%d] TRANS_TYPE[%d] CURR_NUM[%d] WTRAN_TP[%d]",\
                         tTblTrdef.BANK, tTblTrdef.TRANS_TYPE, tTblTrdef.CURR_NUM, tTblTrdef.WTRAN_TP);
-                }              
+                }
             }
             /*BEGIN ADD XYKREQ-6304-2011-0005 呆账核销需求*/
             else
@@ -397,7 +397,7 @@ int L065_trac_update(acct_tdef *ptTblAcct, L065_io_sdef *ptL065InOut,trdef_tdef 
                     unTrans_type_bak = ptL065InOut->unTrans_type;
                     snAmount_bak = ptL065InOut->snAmount;
                     cO_R_flag_bak = ptL065InOut->cO_r_flag;                                        
-                    ptL065InOut->unTrans_type = tTblTrdef.TRANS_TYPE;                
+                    ptL065InOut->unTrans_type = tTblTrdef.TRANS_TYPE;
                 }
                 else if(DB_NOT_FOUND == snResult)
                 {
@@ -421,7 +421,7 @@ int L065_trac_update(acct_tdef *ptTblAcct, L065_io_sdef *ptL065InOut,trdef_tdef 
         CmdA2A(tTblTrdef.BANKACCT, sizeof(chBankacct), chBankacct);
         CmdA2A(tTblTrdef.BANKACC1, sizeof(chBankacc1), chBankacc1);
     }
-    else/*公司卡*/                               
+    else/*公司卡*/
     {
         CmdA2A(tTblTrdef.BANKACCTB, sizeof(chBankacct), chBankacct);
         CmdA2A(tTblTrdef.BANKACC1B, sizeof(chBankacc1), chBankacc1);
@@ -445,7 +445,7 @@ int L065_trac_update(acct_tdef *ptTblAcct, L065_io_sdef *ptL065InOut,trdef_tdef 
             CmdLog(LOGWAN, "PprbctFetch error snResult[%ld], Bankacct[%s]", snResult, chBankacct);
             PprbctClose(DB_CURFROM4);
             return -1;
-        }        
+        }
         else if (0 == snResult)
         {
             CmdA2A(tTblPrbct.SUB_BACCT, sizeof(chBacctbak), chBacctbak);
@@ -456,7 +456,7 @@ int L065_trac_update(acct_tdef *ptTblAcct, L065_io_sdef *ptL065InOut,trdef_tdef 
         {
             CmdLog(LOGWAN, "PprbctClose error snResult[%ld], Bankacct[%s]", snResult, chBankacct);
             return -1;
-        } 
+        }
 
         /*贷方科目替换*/
         memset(&tTblPrbct, 0x00, sizeof(prbct_tdef));
@@ -466,14 +466,14 @@ int L065_trac_update(acct_tdef *ptTblAcct, L065_io_sdef *ptL065InOut,trdef_tdef 
             CmdLog(LOGWAN, "PprbctOpen error snResult[%ld], Bankacc1[%s]", snResult, chBankacc1);
             return -1;
         }
-        
+
         snResult = PprbctFetch(DB_CURFROM4, &tTblPrbct);
         if ((snResult != 0) && (snResult != DB_NOT_FOUND))
         {
             CmdLog(LOGWAN, "PprbctFetch error snResult[%ld], Bankacc1[%s]", snResult, chBankacc1);
             PprbctClose(DB_CURFROM4);
             return -1;
-        }     
+        }
         else if (0 == snResult)
         {
             CmdA2A(tTblPrbct.SUB_BACCT, sizeof(chBacc1bak), chBacc1bak);
@@ -509,7 +509,7 @@ int L065_trac_update(acct_tdef *ptTblAcct, L065_io_sdef *ptL065InOut,trdef_tdef 
                                    ptL065InOut->snAmount,
                                    chBankacct,
                                    chBankacc1);*/ /*DEL CASE-0000-2011-0274*/
-        /*ADD CASE-0000-2011-0274*/                           
+        /*ADD CASE-0000-2011-0274*/
         snResult = L065_1_trac_opr(ptTblAcct,
                                    ptL065InOut->unTrans_type,
                                    ptL065InOut->unCurr_num,
@@ -518,7 +518,7 @@ int L065_trac_update(acct_tdef *ptTblAcct, L065_io_sdef *ptL065InOut,trdef_tdef 
                                    ptL065InOut->snAmount,
                                    chBankacct,
                                    chBankacc1);
-        /*END ADD CASE-0000-2011-0274*/    
+        /*END ADD CASE-0000-2011-0274*/
     }
     else/*TRANS_SRC非空,插入或更新TRACB*/
     {
@@ -530,7 +530,7 @@ int L065_trac_update(acct_tdef *ptTblAcct, L065_io_sdef *ptL065InOut,trdef_tdef 
                                    ptL065InOut->chTrans_src,
                                    ptL065InOut->unProc_day,
                                    ptL065InOut->snAmount); DEL CASE-0000-2011-0274*/
-        /*ADD CASE-0000-2011-0274*/                                
+        /*ADD CASE-0000-2011-0274*/
         snResult = L065_2_tracb_opr(ptTblAcct,
                                    ptL065InOut->unTrans_type,
                                    ptL065InOut->unCurr_num,
@@ -538,7 +538,7 @@ int L065_trac_update(acct_tdef *ptTblAcct, L065_io_sdef *ptL065InOut,trdef_tdef 
                                    ptL065InOut->chTrans_src,
                                    ptL065InOut->unProc_day,
                                    ptL065InOut->snAmount);
-        /*END ADD CASE-0000-2011-0274*/                                        
+        /*END ADD CASE-0000-2011-0274*/
     }
     if(snResult != 0)
     {
@@ -546,11 +546,11 @@ int L065_trac_update(acct_tdef *ptTblAcct, L065_io_sdef *ptL065InOut,trdef_tdef 
     }
 
     /*记录会计分录JORJ*/
-    snResult = L065_3_jorj_ins(ptTblAcct, 
-                               &tTblTrdef, 
+    snResult = L065_3_jorj_ins(ptTblAcct,
+                               &tTblTrdef,
                                chDescription,  /*CHG CASE-0000-2011-0274*/
                                snBacctcode,    /*CHG-130115-0024*/
-                               chBankacct, 
+                               chBankacct,
                                chBankacc1,
                                ptL065InOut);
     if(snResult != 0)
@@ -598,7 +598,7 @@ int L065_trac_update(acct_tdef *ptTblAcct, L065_io_sdef *ptL065InOut,trdef_tdef 
         {
             CmdLog(LOGINF, "L065_auto_jonal error snResult[%ld]", snResult);
             return snResult;
-        }       
+        }
         /*End:  added by yyl for CHG-131226-0008*/
     }
     /*End:   added by yyl for CHG-130115-0024 on 2013-05-10*/
@@ -622,10 +622,10 @@ int L065_trac_update(acct_tdef *ptTblAcct, L065_io_sdef *ptL065InOut,trdef_tdef 
         memset(ptL065InOut->chInp_source, 0x00, sizeof(ptL065InOut->chInp_source));
     }
     /*Begin: moded by yyl for CHG-131119-0006*/
-    
+
     memset(ptL065InOut->chCode_value, 0x00, sizeof(ptL065InOut->chCode_value));
     return 0;
-    
+
 }
 
 /********************************************************************************
@@ -638,7 +638,7 @@ int L065_trac_update(acct_tdef *ptTblAcct, L065_io_sdef *ptL065InOut,trdef_tdef 
 *        UN4  L065_trans_type   交易类型
 *        UN3  L065_curr_num     交易币种
 *        CH   L065_o_r_flag     O:原始交易 R:撤销交易
-*        UN5  L065_proc_day     入账日期 
+*        UN5  L065_proc_day     入账日期
 *        SN11_2 L065_amount     交易金额
 *        CH   *pL065_bankacct   借方科目
 *        CH   *pL065_bankacct1  贷方科目
@@ -662,37 +662,37 @@ int L065_1_trac_opr(acct_tdef *ptTblAcct,
     UN5 unProc_day_new = 0;/*TRACB的PROC_DAY*/
     UN5 unNext_day_new = 0;/*TRACB的NEXT_DAY*/
     CH  chO_R_flag[1+1];   /*L065_o_r_flag*/
-    CH  chBP_flag[1+1]; 
+    CH  chBP_flag[1+1];
     SN4 snCategory = 0;    /*added by yyl for CHG-130218-0019 on 2013-06-25*/
-    
+
     trac_tdef tTblTrac;         /*用于存放当前处理的TRACB结果*/
     tracflag_tdef tTblTracFlag; /*用于修改TRAC记录*/
     trac_tdef tTblTrac_init;    /*用于在新增TRACB时获取PROC_DAY和NEXT_DAY*/
-    
+
     /*交易金额为0,不更新会计总账TRAC*/
     if(0 == CmdDblCmp(L065_amount, 0, 2))
     {
         return 0;
     }
-    
+
     /*局部变量初始化*/
     memset(&tTblTrac, 0x00, sizeof(trac_tdef));
     memset(&tTblTracFlag, 0x00, sizeof(tracflag_tdef));
-    memset(&tTblTrac_init, 0x00, sizeof(trac_tdef));    
+    memset(&tTblTrac_init, 0x00, sizeof(trac_tdef));
     chO_R_flag[0] = L065_o_r_flag;
     chO_R_flag[1] = '\0';
     /*chBP_flag[0] = L065_tran_status;  DEL CASE-0000-2011-0274 */
     /*ADD CASE-0000-2011-027*/
     if(0 == CmdGL(ptTblAcct->BUSINESS))
-    {        
+    {
         chBP_flag[0] = 'P';
     }
     else
     {
-        chBP_flag[0] = 'B';        
+        chBP_flag[0] = 'B';
     }
-    /*END ADD CASE-0000-2011-027*/            
-    chBP_flag[1] = '\0'; 
+    /*END ADD CASE-0000-2011-027*/
+    chBP_flag[1] = '\0';
 
     /*Begin:added by yyl for CHG-130218-0019 on 2013-06-25*/
     snCategory = ptTblAcct->CATEGORY;
@@ -701,7 +701,7 @@ int L065_1_trac_opr(acct_tdef *ptTblAcct,
         snCategory = 0;
     }
     /*End:  added by yyl for CHG-130218-0019 on 2013-06-25*/
-            
+
     /*加锁查询TRAC记录*/
     /*snResult = Ptracprodsec(L065_bank, L065_trans_type, L065_curr_num, \ */ /*DEL CASE-0000-2011-0274*/
     /*snResult = Ptracprodsec(ptTblAcct->BANK, L065_trans_type, L065_curr_num,*/ /*ADD CASE-0000-2011-0274*//*DEL CHG-130218-0019*/
@@ -713,10 +713,10 @@ int L065_1_trac_opr(acct_tdef *ptTblAcct,
         CmdLog(LOGINF, "Ptracprodsec error snResult[%ld]", snResult);
         return -1;
     }
-    
+
     if(DB_NOT_FOUND == snResult)/*TRAC不存在,则插入TRAC*/
     {
-         /*查询任意一条TRAC记录以获取TRAC的PROC_DAY和NEXT_DAY*/ 
+         /*查询任意一条TRAC记录以获取TRAC的PROC_DAY和NEXT_DAY*/
         memset(&tTblTrac_init, 0x00, sizeof(trac_tdef));
         /*snResult = PtracprodOpen(DB_CURFROM1, L065_bank, 0, 0, " ", " ");*//*DEL CASE-0000-2011-0274*/
         /*snResult = PtracprodOpen(DB_CURFROM1, ptTblAcct->BANK, 0, 0, " ", " ");*//*ADD CASE-0000-2011-0274*//*DEL CHG-130218-0019*/
@@ -748,7 +748,7 @@ int L065_1_trac_opr(acct_tdef *ptTblAcct,
 
         unProc_day_new = tTblTrac_init.PROC_DAY;
         unNext_day_new = tTblTrac_init.NEXT_DAY;
-        
+
         /*日期不合法*/
         if((L065_proc_day != unProc_day_new) && (L065_proc_day != unNext_day_new))
         {
@@ -756,7 +756,7 @@ int L065_1_trac_opr(acct_tdef *ptTblAcct,
                 unProc_day_new, unNext_day_new, L065_proc_day);
             return 1;
         }
-            
+
         if((unProc_day_new > 0) && (unNext_day_new > 0))
         {
             tTblTrac.BANK = ptTblAcct->BANK;
@@ -768,45 +768,45 @@ int L065_1_trac_opr(acct_tdef *ptTblAcct,
             /*ADD CASE-0000-2011-0274*/
             if(0 == CmdGL(ptTblAcct->BUSINESS))
             {
-                tTblTrac.BP_FLAG[0] = 'P';  
+                tTblTrac.BP_FLAG[0] = 'P';
             }
             else
             {
-                tTblTrac.BP_FLAG[0] = 'B'; 
+                tTblTrac.BP_FLAG[0] = 'B';
             }
             /*END ADD CASE-0000-2011-0274*/
             /*tTblTrac.BP_FLAG[0] = L065_tran_status;*/ /*DEL CASE-0000-2011-0274*/
             CmdA2A(pL065_bankacct, sizeof(tTblTrac.BANKACCT), tTblTrac.BANKACCT);
-            CmdA2A(pL065_bankacct1, sizeof(tTblTrac.BANKACC1), tTblTrac.BANKACC1);          
-            
+            CmdA2A(pL065_bankacct1, sizeof(tTblTrac.BANKACC1), tTblTrac.BANKACC1);
+
             if(L065_proc_day == unProc_day_new)
             {
                 tTblTrac.AMT_TODAY = L065_amount;
-                tTblTrac.NBR_TODAY = 1;            
+                tTblTrac.NBR_TODAY = 1;
             }
             else if(L065_proc_day == unNext_day_new)
             {
                 tTblTrac.AMT_NXTDAY = L065_amount;
-                tTblTrac.NBR_NXTDAY += 1;            
+                tTblTrac.NBR_NXTDAY += 1;
             }
 
             /*Begin:added by yyl for CHG-130218-0019 on 2013-06-25*/
             tTblTrac.CATEGORY = snCategory;
             /*End:  added by yyl for CHG-130218-0019 on 2013-06-25*/
-            
+
             snResult = TracInsert(&tTblTrac);
             if(snResult != 0)
             {
                 CmdLog(LOGINF, "TracInsert error snResult[%ld]", snResult);
                 return -1;
-            }  
+            }
         }
         else
         {
             CmdLog(LOGERR, "TRAC DATE error snResult[%ld] PROC_DAY[%d] NEXT_DAY[%d]",\
                 snResult, unProc_day_new, unNext_day_new);
             return 2;
-        }          
+        }
     }/*end if DB_NOT_FOUND:TRAC*/
     else
     {
@@ -817,7 +817,7 @@ int L065_1_trac_opr(acct_tdef *ptTblAcct,
                 tTblTrac.PROC_DAY, tTblTrac.NEXT_DAY, L065_proc_day);
             return 1;
         }
-        
+
         if(L065_proc_day == tTblTrac.PROC_DAY)
         {
             tTblTrac.AMT_TODAY += L065_amount;
@@ -837,7 +837,7 @@ int L065_1_trac_opr(acct_tdef *ptTblAcct,
             tTblTrac.AMT_NXTDAY += L065_amount;
             tTblTracFlag.AMT_NXTDAY = 1;
             tTblTrac.NBR_NXTDAY += 1;
-            tTblTracFlag.NBR_NXTDAY = 1; 
+            tTblTracFlag.NBR_NXTDAY = 1;
 
             /*Begin:added by yyl for CHG-130218-0019 on 2013-07-08*/
             CmdA2A(pL065_bankacct, sizeof(tTblTrac.BANKACCT), tTblTrac.BANKACCT);
@@ -852,7 +852,7 @@ int L065_1_trac_opr(acct_tdef *ptTblAcct,
         {
             CmdLog(LOGINF, "TracUpdate error snResult[%ld]", snResult);
             return -1;
-        }      
+        }
     }
     return 0;
 }
@@ -868,7 +868,7 @@ int L065_1_trac_opr(acct_tdef *ptTblAcct,
 *        UN3  L065_curr_num     交易币种
 *        CH   L065_o_r_flag     O:原始交易 R:撤销交易
 *        CH   L065_tran_status  B:公司卡 P:个人卡
-*        UN5  L065_proc_day     入账日期 
+*        UN5  L065_proc_day     入账日期
 *        SN11_2 L065_amount     交易金额
 *  输出：无
 *
@@ -891,7 +891,7 @@ int L065_2_tracb_opr(acct_tdef *ptTblAcct,
     CH  chO_R_flag[1+1];   /*L065_o_r_flag*/
     CH  chBP_flag[1+1];    /*对应L065_tran_status*/
     SN4 snCategory = 0;    /*added by yyl for CHG-130218-0019 on 2013-06-25*/
-    
+
     tracb_tdef tTblTracb;  /*用于存放当前处理的TRACB结果*/
     tracbflag_tdef tTblTracbFlag; /*用于修改TRACB记录*/
     tracb_tdef tTblTracb_init; /*用于在新增TRACB时获取PROC_DAY和NEXT_DAY*/
@@ -914,14 +914,14 @@ int L065_2_tracb_opr(acct_tdef *ptTblAcct,
     /*chBP_flag[0] = L065_tran_status;  DEL CASE-0000-2011-0274 */
     /*ADD CASE-0000-2011-027*/
     if(0 == CmdGL(ptTblAcct->BUSINESS))
-    {        
+    {
         chBP_flag[0] = 'P';
     }
     else
     {
-        chBP_flag[0] = 'B';        
+        chBP_flag[0] = 'B';
     }
-    /*END ADD CASE-0000-2011-027*/   
+    /*END ADD CASE-0000-2011-027*/
     chBP_flag[1] = '\0';
 
     /*Begin:added by yyl for CHG-130218-0019 on 2013-06-25*/
@@ -931,7 +931,7 @@ int L065_2_tracb_opr(acct_tdef *ptTblAcct,
         snCategory = 0;
     }
     /*End:  added by yyl for CHG-130218-0019 on 2013-06-25*/
-    
+
     /*snResult = Ptracbsec(L065_bank, L065_trans_type, L065_curr_num, \      DEL CASE-0000-2011-0274*/
     /*snResult = Ptracbsec(ptTblAcct->BANK, L065_trans_type, L065_curr_num,*/ /*ADD CASE-0000-2011-0274*//*DEL CHG-130218-0019*/
         /*chO_R_flag, chBP_flag, pL065_trans_src, &tTblTracb); */
@@ -944,7 +944,7 @@ int L065_2_tracb_opr(acct_tdef *ptTblAcct,
     }
     if(DB_NOT_FOUND == snResult)/*TRACB不存在,则插入TRACB*/
     {
-        /*查询任意一条TRACB记录以获取TRACB的PROC_DAY和NEXT_DAY*/ 
+        /*查询任意一条TRACB记录以获取TRACB的PROC_DAY和NEXT_DAY*/
         memset(&tTblTracb_init, 0x00, sizeof(tracb_tdef));
         /*snResult = PtracbOpen(DB_CURFROM1, L065_bank, 0, 0, " ", " ", " "); DEL CASE-0000-2011-0274*/
         /*snResult = PtracbOpen(DB_CURFROM1, ptTblAcct->BANK, 0, 0, " ", " ", " ");*/ /*ADD CASE-0000-2011-0274*//*DEL CHG-130218-0019*/
@@ -953,7 +953,7 @@ int L065_2_tracb_opr(acct_tdef *ptTblAcct,
         {
             CmdLog(LOGINF, "PtracbOpen error snResult[%ld]", snResult);
             return -1;
-        }        
+        }
         snResult = PtracbFetch(DB_CURFROM1, &tTblTracb_init);
         if((snResult != 0) &(snResult != DB_NOT_FOUND))
         {
@@ -976,7 +976,7 @@ int L065_2_tracb_opr(acct_tdef *ptTblAcct,
 
         unProc_day = tTblTracb_init.PROC_DAY;
         unNext_day = tTblTracb_init.NEXT_DAY;
-        
+
         /*日期不合法*/
         if((L065_proc_day != unProc_day) && (L065_proc_day != unNext_day))
         {
@@ -984,7 +984,7 @@ int L065_2_tracb_opr(acct_tdef *ptTblAcct,
                 unProc_day, unNext_day, L065_proc_day);
             return 1;
         }
-        
+
         if((unProc_day > 0) && (unNext_day > 0))
         {
             /*日期合法，插入TRACB记录*/
@@ -998,11 +998,11 @@ int L065_2_tracb_opr(acct_tdef *ptTblAcct,
             /*ADD CASE-0000-2011-0274*/
             if(0 == CmdGL(ptTblAcct->BUSINESS))
             {
-                tTblTracb.BP_FLAG[0] = 'P';  
+                tTblTracb.BP_FLAG[0] = 'P';
             }
             else
             {
-                tTblTracb.BP_FLAG[0] = 'B'; 
+                tTblTracb.BP_FLAG[0] = 'B';
             }
             /*END ADD CASE-0000-2011-0274*/
             /*tTblTracb.BP_FLAG[0] = L065_tran_status;DEL CASE-0000-2011-0274*/
@@ -1010,25 +1010,25 @@ int L065_2_tracb_opr(acct_tdef *ptTblAcct,
             if(L065_proc_day == unProc_day)
             {
                 tTblTracb.AMT_TODAY = L065_amount;
-                tTblTracb.NBR_TODAY = 1;            
+                tTblTracb.NBR_TODAY = 1;
             }
             else if(L065_proc_day == unNext_day)
             {
                 tTblTracb.AMT_NXTDAY = L065_amount;
-                tTblTracb.NBR_NXTDAY += 1;            
+                tTblTracb.NBR_NXTDAY += 1;
             }
-            
+
             /*Begin:added by yyl for CHG-130218-0019 on 2013-06-25*/
             tTblTracb.CATEGORY = snCategory;
             /*End:  added by yyl for CHG-130218-0019 on 2013-06-25*/
-            
+
             snResult = TracbInsert(&tTblTracb);
-            
+
             if(snResult != 0)
             {
                 CmdLog(LOGINF, "TracbInsert error snResult[%ld]", snResult);
                 return -1;
-            }  
+            }
         }
         else
         {
@@ -1036,7 +1036,7 @@ int L065_2_tracb_opr(acct_tdef *ptTblAcct,
             CmdLog(LOGERR, "TRACB DATE error snResult[%ld] PROC_DAY[%d] NEXT_DAY[%d]",\
                 snResult, unProc_day, unNext_day);
             return 2;
-        }        
+        }
     }
     else/*TRACB存在,则更新TRACB*/
     {
@@ -1047,7 +1047,7 @@ int L065_2_tracb_opr(acct_tdef *ptTblAcct,
                 tTblTracb.CURR_NUM, L065_curr_num);
             return 4;
         }
-        
+
         /*日期不匹配*/
         if((L065_proc_day != tTblTracb.PROC_DAY) && (L065_proc_day != tTblTracb.NEXT_DAY))
         {
@@ -1061,16 +1061,16 @@ int L065_2_tracb_opr(acct_tdef *ptTblAcct,
         {
             tTblTracb.AMT_TODAY += L065_amount;
             tTblTracbFlag.AMT_TODAY = 1;
-            tTblTracb.NBR_TODAY += 1;            
+            tTblTracb.NBR_TODAY += 1;
             tTblTracbFlag.NBR_TODAY = 1;
         }
         else if(L065_proc_day == tTblTracb.NEXT_DAY)
         {
             tTblTracb.AMT_NXTDAY += L065_amount;
             tTblTracbFlag.AMT_NXTDAY = 1;
-            tTblTracb.NBR_NXTDAY += 1;            
+            tTblTracb.NBR_NXTDAY += 1;
             tTblTracbFlag.NBR_NXTDAY = 1;
-        } 
+        }
         snResult = TracbUpdate(&tTblTracb,&tTblTracbFlag);
         if(snResult != 0)
         {
@@ -1078,7 +1078,7 @@ int L065_2_tracb_opr(acct_tdef *ptTblAcct,
             return -1;
         }
     }
-    
+
     return 0;
 }
 
@@ -1100,11 +1100,11 @@ int L065_2_tracb_opr(acct_tdef *ptTblAcct,
 *           <>0:失败
 ********************************************************************************/
 int L065_3_jorj_ins(acct_tdef *ptTblAcct,
-                        trdef_tdef  *ptTblTrdef,                    
+                        trdef_tdef  *ptTblTrdef,
                         CH chDescription[36+1],
                         SN4 snBacctcode,
                         CH *pL065_bankacct,
-                        CH *pL065_bankacc1, 
+                        CH *pL065_bankacc1,
                         L065_io_sdef *ptL065InOut)
 {
     merch_tdef tTblMerch;
@@ -1112,21 +1112,21 @@ int L065_3_jorj_ins(acct_tdef *ptTblAcct,
     jorj_tdef  tTblJorj;
     codes_tdef tTblCodes;
     time_sdef tTimeInp;
-    
+
     SN6 snResult = 0;
     UN1 unSkip = 0;
     /*Begin:added by yyl for CHG-130218-0019 on 2013-07-08*/
-    UN1 unFlag = 0;  
+    UN1 unFlag = 0;
     prbct_tdef tTblPrbct;
     /*End:  added by yyl for CHG-130218-0019 on 2013-07-08*/
-    
+
     /*变量初始化*/
     memset(&tTblJorj, 0x00, sizeof(jorj_tdef));
     memset(&tTimeInp, 0x00, sizeof(time_sdef));
-    
+
     CmdA2A(pL065_bankacct, sizeof(tTblJorj.BANKACCT), tTblJorj.BANKACCT);
     CmdA2A(pL065_bankacc1, sizeof(tTblJorj.BANKACC1), tTblJorj.BANKACC1);
-    
+
     /*流水号要求输入,但随机数有可能为0,因此不报错,仅打印INF日志*/
     if(0 == ptL065InOut->unJorj_serial)
     {
@@ -1158,7 +1158,7 @@ int L065_3_jorj_ins(acct_tdef *ptTblAcct,
             }
 
             if(0 == snResult)/*BACCT记录存在*/
-            {            
+            {
                 if('1' == tTblBacct.RES_FLAG[0])
                 {
                     /*CmdA2A(tTblMerch.DEP_ACCT, sizeof(tTblJorj.BANKACCT), tTblJorj.BANKACCT);*/ /*Del by yyl for CHG-130218-0019 on 2013-07-24*/
@@ -1167,7 +1167,7 @@ int L065_3_jorj_ins(acct_tdef *ptTblAcct,
                     unFlag = 1; /*added by yyl for CHG-130218-0019 on 2013-07-08*/
                 }
             }
-            
+
             /*查询贷方科目*/
             if(0 == unSkip)/*要求SKIP = 0,只替换一方科目*/
             {
@@ -1186,7 +1186,7 @@ int L065_3_jorj_ins(acct_tdef *ptTblAcct,
                         /*CmdA2A(tTblMerch.DEP_ACCT, sizeof(tTblJorj.BANKACC1), tTblJorj.BANKACC1);*/ /*Del by yyl for CHG-130218-0019 on 2013-07-24*/
                         CmdA2A(tTblMerch.DEP_ACCT, 21, pL065_bankacc1); /*added by yyl for CHG-130218-0019 on 2013-07-24*/
                         unFlag = 1; /*added by yyl for CHG-130218-0019 on 2013-07-08*/
-                    }                
+                    }
                 }
             }
         }
@@ -1218,7 +1218,7 @@ int L065_3_jorj_ins(acct_tdef *ptTblAcct,
             {
                 if('1' == tTblBacct.RES_FLAG[0])
                 {
-                    CmdRTrim(tTblCodes.VALUE_DEF);   
+                    CmdRTrim(tTblCodes.VALUE_DEF);
                     /*CmdA2A(tTblCodes.VALUE_DEF, sizeof(tTblJorj.BANKACCT), tTblJorj.BANKACCT);*/ /*Del by yyl for CHG-130218-0019 on 2013-07-24*/
                     CmdA2A(tTblCodes.VALUE_DEF, 21, pL065_bankacct); /*added by yyl for CHG-130218-0019 on 2013-07-24*/
                     unSkip = 1;
@@ -1241,14 +1241,14 @@ int L065_3_jorj_ins(acct_tdef *ptTblAcct,
                 {
                     if('1' == tTblBacct.RES_FLAG[0])
                     {
-                        CmdRTrim(tTblCodes.VALUE_DEF); 
+                        CmdRTrim(tTblCodes.VALUE_DEF);
                         /*CmdA2A(tTblCodes.VALUE_DEF, sizeof(tTblJorj.BANKACC1), tTblJorj.BANKACC1);*/ /*Del by yyl for CHG-130218-0019 on 2013-07-24*/
                         CmdA2A(tTblCodes.VALUE_DEF, 21, pL065_bankacc1); /*added by yyl for CHG-130218-0019 on 2013-07-24*/
                         unFlag = 1; /*added by yyl for CHG-130218-0019 on 2013-07-08*/
                     }
-                }                
-            }            
-        }          
+                }
+            }
+        }
     }/*End 费用细分处理*/
 
     /*Begin:added by yyl for CHG-130218-0019 on 2013-07-08*/
@@ -1269,7 +1269,7 @@ int L065_3_jorj_ins(acct_tdef *ptTblAcct,
             CmdLog(LOGWAN, "PprbctFetch error snResult[%ld], Bankacct[%s]", snResult, pL065_bankacct);
             PprbctClose(DB_CURFROM4);
             return -1;
-        }        
+        }
         else if (0 == snResult)
         {
             CmdA2A(tTblPrbct.SUB_BACCT, 21, pL065_bankacct);
@@ -1280,7 +1280,7 @@ int L065_3_jorj_ins(acct_tdef *ptTblAcct,
         {
             CmdLog(LOGWAN, "PprbctClose error snResult[%ld], Bankacct[%s]", snResult, pL065_bankacct);
             return -1;
-        } 
+        }
 
         /*贷方科目替换*/
         memset(&tTblPrbct, 0x00, sizeof(prbct_tdef));
@@ -1290,14 +1290,14 @@ int L065_3_jorj_ins(acct_tdef *ptTblAcct,
             CmdLog(LOGWAN, "PprbctOpen error snResult[%ld], Bankacc1[%s]", snResult, pL065_bankacc1);
             return -1;
         }
-        
+
         snResult = PprbctFetch(DB_CURFROM4, &tTblPrbct);
         if ((snResult != 0) && (snResult != DB_NOT_FOUND))
         {
             CmdLog(LOGWAN, "PprbctFetch error snResult[%ld], Bankacc1[%s]", snResult, pL065_bankacc1);
             PprbctClose(DB_CURFROM4);
             return -1;
-        }     
+        }
         else if (0 == snResult)
         {
             CmdA2A(tTblPrbct.SUB_BACCT, 21, pL065_bankacc1);
@@ -1310,22 +1310,22 @@ int L065_3_jorj_ins(acct_tdef *ptTblAcct,
             return -1;
         }
     }
-    /*End:  added by yyl for CHG-130218-0019 on 2013-07-08*/   
+    /*End:  added by yyl for CHG-130218-0019 on 2013-07-08*/
 
     /*ADD CHG-120529-0011 IC卡特色交易*/
     snResult = L065_4_bacct_upd(ptL065InOut, pL065_bankacct, pL065_bankacc1);
     if(snResult != 0)
     {
         return snResult;
-    }    
+    }
     /*END ADD CHG-120529-0011*/
-    
+
     /*对JORJ记录赋值,并插入JORJ*/
     /*Begin:added by yyl for CHG-130218-0019 on 2013-07-08*/
     CmdA2A(pL065_bankacct, sizeof(tTblJorj.BANKACCT), tTblJorj.BANKACCT);
     CmdA2A(pL065_bankacc1, sizeof(tTblJorj.BANKACC1), tTblJorj.BANKACC1);
     /*End:  added by yyl for CHG-130218-0019 on 2013-07-08*/
-    
+
     /*tTblJorj.BANK = ptL065InOut->unBank;DEL CASE-0000-2011-0274*/
     tTblJorj.BANK = ptTblAcct->BANK; /*ADD CASE-0000-2011-0274*/
     if(0 == CmdGL(chDescription))
@@ -1340,8 +1340,8 @@ int L065_3_jorj_ins(acct_tdef *ptTblAcct,
     if(0 == ptL065InOut->unTran_time)
     {
         CmdMT(&tTimeInp);
-        tTblJorj.INP_TIME = tTimeInp.time_HHMMSSss_N; 
-        ptL065InOut->unTran_time = tTimeInp.time_HHMMSSss_N;        
+        tTblJorj.INP_TIME = tTimeInp.time_HHMMSSss_N;
+        ptL065InOut->unTran_time = tTimeInp.time_HHMMSSss_N;
     }
     else
     {
@@ -1351,7 +1351,7 @@ int L065_3_jorj_ins(acct_tdef *ptTblAcct,
         /*这样就会导致JORJ表里相同索引的数据有多条，*/
         /*这样在批处理中使用JORJ表时，由于游标4s会重新打开，这样会导致相同的记录被重复查询处理。*/
         /*例如GLREPORT批量处理JORJ进行会计并账时会出现此问题，GLTMP表重复插入、从而导致分户账不平等一系列问题*/
-        ptL065InOut->unTran_time = tTblJorj.INP_TIME;       
+        ptL065InOut->unTran_time = tTblJorj.INP_TIME;
     }
     tTblJorj.O_R_FLAG[0] = ptL065InOut->cO_r_flag;
     tTblJorj.O_R_FLAG[1] = '\0';
@@ -1395,7 +1395,7 @@ int L065_3_jorj_ins(acct_tdef *ptTblAcct,
         }
     }
     /*End:  added by yyl for CHG-130909-0051*/
-    
+
     CmdA2A(ptL065InOut->chBrno, sizeof(tTblJorj.BRNO), tTblJorj.BRNO);
     CmdA2A(ptL065InOut->chEmployee, sizeof(tTblJorj.EMPNO), tTblJorj.EMPNO);
     CmdA2A(ptL065InOut->chMerchant, sizeof(tTblJorj.MERCHANT), tTblJorj.MERCHANT);
@@ -1409,7 +1409,7 @@ int L065_3_jorj_ins(acct_tdef *ptTblAcct,
     {
         CmdLog(LOGWAN, "JorjInsert error snResult[%d]", snResult);
         return -1;
-    }    
+    }
     return 0;
 }
 
@@ -1462,13 +1462,13 @@ int L065_4_bacct_upd(L065_io_sdef *ptL065InOut,
     snResult = Fbanks(GLB_BANK, &tTblBanks);
     if((snResult != 0) && (snResult != DB_NOT_FOUND))
     {
-        CmdLog(LOGWAN, "Fbanks error snResult[%ld]", snResult);        
+        CmdLog(LOGWAN, "Fbanks error snResult[%ld]", snResult);
         return -1;
     }
     if(DB_NOT_FOUND == snResult)
     {
-        CmdLog(LOGWAN, "Fbanks error not found");        
-        return 10;   
+        CmdLog(LOGWAN, "Fbanks error not found");
+        return 10;
     }
 
     if((2 == tTblBanks.PTTOL_YN) && (652 == ptL065InOut->unTrans_type))
@@ -1479,7 +1479,7 @@ int L065_4_bacct_upd(L065_io_sdef *ptL065InOut,
             CmdLog(LOGWAN, "Pbacctsec error snResult[%ld]", snResult);
             return -1;
         }
-        
+
         if((0 == snResult) && ('B' == tTblBacct.GLFLAG[0]))/*BACCT记录存在*/
         {
             if(ptL065InOut->unProc_day == tTblBacct.PROC_DAY)
@@ -1517,14 +1517,14 @@ int L065_4_bacct_upd(L065_io_sdef *ptL065InOut,
                 tTblBacctFlag.CRAMT_TOT = 1;
                 tTblBacct.CRAMT_TODY = 0;
                 tTblBacctFlag.CRAMT_TODY = 1;
-                        
+
                 tTblBacct.DRAMT_TOT += tTblBacct.DRAMT_TODY;
                 tTblBacctFlag.DRAMT_TOT = 1;
                 tTblBacct.DRAMT_TODY = 0;
                 tTblBacctFlag.DRAMT_TODY = 1;
-                    
+
                 if(GC_ORIG[0] == ptL065InOut->cO_r_flag)
-                {                                          
+                {
                     if(ptL065InOut->snAmount > 0)
                     {
                         tTblBacct.DRAMT_TODY += ptL065InOut->snPoint;
@@ -1650,7 +1650,7 @@ int L065_4_bacct_upd(L065_io_sdef *ptL065InOut,
                         {
                             tTblBacct.CRAMT_TODY += ptL065InOut->snAmount;
                             tTblBacctFlag.CRAMT_TODY = 1;
-                        }                          
+                        }
                     }
                     tTblBacct.PROC_DAY = ptL065InOut->unProc_day;
                     tTblBacctFlag.PROC_DAY = 1;
@@ -1703,7 +1703,7 @@ int L065_4_bacct_upd(L065_io_sdef *ptL065InOut,
                             tTblBacct.DRAMT_TODY += ptL065InOut->snAmount;
                             tTblBacctFlag.DRAMT_TODY = 1;
                         }
-                    }                       
+                    }
                 }
                 else
                 {
@@ -1754,16 +1754,16 @@ int L065_4_bacct_upd(L065_io_sdef *ptL065InOut,
                         }
                     }
                     tTblBacct.PROC_DAY = ptL065InOut->unProc_day;
-                    tTblBacctFlag.PROC_DAY = 1;                  
+                    tTblBacctFlag.PROC_DAY = 1;
                 }
-                 
+
                 snResult = BacctUpdate(&tTblBacct, &tTblBacctFlag);
                 if(snResult != 0)
                 {
                     CmdLog(LOGWAN, "BacctUpdate error snResult[%ld]", snResult);
                     return -1;
-                }                
-            }            
+                }
+            }
         }/*end 贷方科目非空*/
     }
     /*else
@@ -1836,7 +1836,7 @@ int L065_5_brno_chg(acct_tdef *ptTblAcct,
         {
             CmdA2AEx(tTblBrnch.BRNCH_CODE, 1, 6, 1, sizeof(ptL065InOut->chBrno), ptL065InOut->chBrno);
         }
-        else 
+        else
         {
             if (ptTblAcct->XACCOUNT != 0) /*added by yyl for CHG-131111-0009*/
             {

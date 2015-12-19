@@ -1,6 +1,3 @@
-#include <sys/stat.h>
-#include <stdlib.h>
-#include <string.h>
 #include "SPCRemove.h"
 
 int SPC_REMOVE(char *filename) {
@@ -24,14 +21,14 @@ int SPC_REMOVE(char *filename) {
 
     pRead = fopen(filename, "r");
     if(NULL == pRead) {
-        printf("File open fail ! 1\n");
+        SPC_MSG(LOGERR, "File open fail!");
         return 1;
     }
     size1 = getFileSize(filename);
 
     pCopy = fopen(outputfile, "w");
     if(NULL == pCopy) {
-        printf("File open fail ! 2\n");
+        SPC_MSG(LOGERR, "File open fail!");
         return 1;
     }
 
@@ -41,7 +38,7 @@ int SPC_REMOVE(char *filename) {
             fline[0] = '\n';
             unResult = fputs(fline, pCopy);
             if(EOF == unResult) {
-                printf("File write fial! \n");
+                SPC_MSG(LOGERR, "File write fail!");
             }
         }
         else if(lenth == (MAX_LINE - 1)) {
@@ -49,31 +46,31 @@ int SPC_REMOVE(char *filename) {
             if(fline[temp] != '\n') {
                 unResult = fputs(fline, pCopy);
                 if(EOF == unResult) {
-                    printf("File write fial! \n");
+                    SPC_MSG(LOGERR, "File write fail!");
                 }
                 continue;
             }
             else {
                 unResult = fputs(SPC_TRIM(fline), pCopy);
                 if(EOF == unResult) {
-                    printf("File write fail! \n");
+                    SPC_MSG(LOGERR, "File write fail!");
                 }
             }
         }
         else {
             unResult = fputs(SPC_TRIM(fline), pCopy);
             if(EOF == unResult) {
-                printf("File write fail! \n");
+                SPC_MSG(LOGERR, "File write fail!");
             }
         }
     }
     unResult = fclose(pRead);
     if(unResult != 0) {
-        printf("File [pRead] close fail! unResult=[%d]\n", unResult);
+        SPC_MSG(LOGERR, "File [pRead] close fail !");
     }
     unResult = fclose(pCopy);
     if(unResult != 0) {
-        printf("File [pCopy] close fail! unResult=[%d]\n", unResult);
+        SPC_MSG(LOGERR, "File [pCopy] close fail!");
     }
 
     size2 = getFileSize(outputfile);
@@ -94,24 +91,23 @@ char *SPC_TRIM(char *fline) {
         fline[unLen] = '\0';
     }
     else {
-        unLen -= 2;
-    }
-    for(unLen; unLen >= 0; unLen--) {
-        if((' ' == fline[unLen]) || ('\t' == fline[unLen])) {
-            if(0 == unLen) {
+        for(unLen -= 2; unLen >= 0; unLen--) {
+            if((' ' == fline[unLen]) || ('\t' == fline[unLen])) {
+                if(0 == unLen) {
+                    fline[unLen] = '\n';
+                    unLen++;
+                    fline[unLen] = '\0';
+                    break;
+                }
+                continue;
+            }
+            else {
+                unLen++;
                 fline[unLen] = '\n';
                 unLen++;
                 fline[unLen] = '\0';
                 break;
             }
-            continue;
-        }
-        else {
-            unLen++;
-            fline[unLen] = '\n';
-            unLen++;
-            fline[unLen] = '\0';
-            break;
         }
     }
     return fline;
