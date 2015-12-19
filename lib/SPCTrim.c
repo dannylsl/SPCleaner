@@ -1,6 +1,6 @@
-#include "SPCRemove.h"
+#include "SPCTrim.h"
 
-int SPC_REMOVE(char *filename) {
+int SPC_TRIM(char *filename) {
 
     /*定义私有变量*/
     FILE      *pRead = NULL;
@@ -51,14 +51,14 @@ int SPC_REMOVE(char *filename) {
                 continue;
             }
             else {
-                unResult = fputs(SPC_TRIM(fline), pCopy);
+                unResult = fputs(SPC_RTRIM(fline), pCopy);
                 if(EOF == unResult) {
                     SPC_MSG(LOGERR, "File write fail!");
                 }
             }
         }
         else {
-            unResult = fputs(SPC_TRIM(fline), pCopy);
+            unResult = fputs(SPC_RTRIM(fline), pCopy);
             if(EOF == unResult) {
                 SPC_MSG(LOGERR, "File write fail!");
             }
@@ -81,7 +81,7 @@ int SPC_REMOVE(char *filename) {
     return 0;
 }
 
-char *SPC_TRIM(char *fline) {
+char *SPC_RTRIM(char *fline) {
     int     unLen = 0;
 
     unLen = strlen(fline);
