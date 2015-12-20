@@ -122,7 +122,7 @@ char *GetIniKeyString(char *title,char *key,char *filename)
         }
     }
     fclose(fp);
-    return "";
+    return NULL;
 }
 
 //从INI文件读取整类型数据
