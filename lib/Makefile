@@ -1,7 +1,6 @@
 CC=gcc
 CFLAG= -Wall -g
-TARGETS=log
-TARGETS=remove
+TARGETS=log remove
 
 all:${TARGETS}
 
@@ -10,9 +9,9 @@ SPCLog.o: SPCLog.c SPCLog.h
 log: log.c SPCLog.o
 	${CC} ${CFLAG} -o $@ $^
 
-SPCRemove.o: SPCRemove.c SPCRemove.h
+SPCRemove.o: SPCTrim.c SPCTrim.h
 	${CC} ${CFLAG} -c $^
-remove: remove.c SPCRemove.o
+remove: remove.c SPCTrim.o
 	${CC} ${CFLAG} -o $@ $^
 
 .PHONY:clean
