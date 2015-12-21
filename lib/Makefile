@@ -16,5 +16,5 @@ remove: remove.c SPCTrim.o SPCLog.o
 
 .PHONY:clean
 clean:
-	rm ${TARGETS}
 	rm *.o *.gch
+	rm ${TARGETS}
