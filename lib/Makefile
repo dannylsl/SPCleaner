@@ -9,9 +9,9 @@ SPCLog.o: SPCLog.c SPCLog.h
 log: log.c SPCLog.o
 	${CC} ${CFLAG} -o $@ $^
 
-SPCRemove.o: SPCTrim.c SPCTrim.h
+SPCTrim.o: SPCTrim.c SPCTrim.h
 	${CC} ${CFLAG} -c $^
-remove: remove.c SPCTrim.o
+remove: remove.c SPCTrim.o SPCLog.o
 	${CC} ${CFLAG} -o $@ $^
 
 .PHONY:clean

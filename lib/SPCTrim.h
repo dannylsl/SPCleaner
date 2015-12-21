@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
-#include "SPCLog.c"
 #include "SPCLog.h"
 
 #define MAX_LINE 100

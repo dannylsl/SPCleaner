@@ -7,6 +7,7 @@ int main(int argc, char *argv[]) {
 
     if(argc != 2) {
         printf("Input filename!\n");
+        return -1;
     }
     filename = argv[1];
     SPC_TRIM(filename);
