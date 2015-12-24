@@ -1,6 +1,7 @@
 #ifndef __SPC_TRIM_H
 #define __SPC_TRIM_H
 
+#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

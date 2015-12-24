@@ -24,11 +24,13 @@ int SPC_TRIM(char *path) {
         return 1;
     }
 
-    /*创建输出目录*/
-    unResult = mkdir("./copy", 0755);
-    if(unResult != 0) {
-        SPC_MSG(LOGERR, "Make directory fail!");
-        return 1;
+    if(access("./copy", 0) != 0) {
+        /*创建输出目录*/
+        unResult = mkdir("./copy", 0755);
+        if(unResult != 0) {
+            SPC_MSG(LOGERR, "Make directory fail!");
+            return 1;
+        }
     }
 
     /*获取输出文件路径*/
