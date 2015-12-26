@@ -8,8 +8,8 @@ int SPC_TRIM(char *path) {
     int       lenth = 0;
     int       temp = 0;
     int       unResult = 0;
-    long int  size1 = 0;
-    long int  size2 = 0;
+    long      size1 = 0;
+    long      size2 = 0;
     float     effic = 0.00;
     char      outputfile[MAX_LINE] = "./copy/";
     char      fline[MAX_LINE];
@@ -18,18 +18,14 @@ int SPC_TRIM(char *path) {
     /*变量初始化*/
     memset(fline, 0x00, MAX_LINE);
 
-    unResult = SPC_INIT();
-    if(unResult != 0) {
-        SPC_MSG(LOGERR, "SPC_INIT ERROR!");
-        return 1;
-    }
+    SPC_INIT();
 
     if(access("./copy", 0) != 0) {
         /*创建输出目录*/
         unResult = mkdir("./copy", 0755);
         if(unResult != 0) {
             SPC_MSG(LOGERR, "Make directory fail!");
-            return 1;
+            return SPC_ERR;
         }
     }
 
@@ -41,7 +37,7 @@ int SPC_TRIM(char *path) {
     pRead = fopen(path, "r");
     if(NULL == pRead) {
         SPC_MSG(LOGERR, "File open fail!");
-        return 1;
+        return SPC_ERR;
     }
     size1 = getFileSize(path);
 
@@ -49,7 +45,7 @@ int SPC_TRIM(char *path) {
     pCopy = fopen(outputfile, "w");
     if(NULL == pCopy) {
         SPC_MSG(LOGERR, "File open fail!");
-        return 1;
+        return SPC_ERR;
     }
 
     /*去空格处理*/
@@ -101,7 +97,7 @@ int SPC_TRIM(char *path) {
     printf("size1 = %ld ,size2 = %ld \n", size1, size2);
     printf("Code efficiency:%.02f%% \n", effic);
 
-    return 0;
+    return SPC_OK;
 }
 
 char *SPC_RTRIM(char *fline) {
