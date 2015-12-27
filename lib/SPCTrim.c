@@ -20,6 +20,16 @@ int SPC_TRIM(char *path) {
 
     SPC_INIT();
 
+#ifdef WIN32
+    if(access("./copy", 0) != 0) {
+        /*创建输出目录*/
+        unResult = mkdir("./copy");
+        if(unResult != 0) {
+            SPC_MSG(LOGERR, "Make directory fail!");
+            return SPC_ERR;
+        }
+    }
+#else
     if(access("./copy", 0) != 0) {
         /*创建输出目录*/
         unResult = mkdir("./copy", 0755);
@@ -28,6 +38,7 @@ int SPC_TRIM(char *path) {
             return SPC_ERR;
         }
     }
+#endif
 
     /*获取输出文件路径*/
     filename = strrchr(path, 47) + 1;
