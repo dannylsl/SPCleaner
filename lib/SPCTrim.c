@@ -41,7 +41,13 @@ int SPC_TRIM(char *path) {
 #endif
 
     /*获取输出文件路径*/
-    filename = strrchr(path, 47) + 1;
+    if(NULL == strrchr(path, 47)) {
+        /*增加非跨目录文件判断,即无‘/’出现*/
+        filename = path;
+    }
+    else {
+        filename = strrchr(path, 47) + 1;
+    }
     strcat(outputfile, filename);
 
     /*打开处理文件-读取*/
