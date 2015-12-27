@@ -51,7 +51,7 @@ int SPC_TRIM(char *path) {
     strcat(outputfile, filename);
 
     /*打开处理文件-读取*/
-    pRead = fopen(path, "r");
+    pRead = fopen(path, "rb");
     if(NULL == pRead) {
         SPC_MSG(LOGERR, "File open fail!");
         return SPC_ERR;
@@ -59,7 +59,7 @@ int SPC_TRIM(char *path) {
     size1 = getFileSize(path);
 
     /*打开输出文件-新建写入*/
-    pCopy = fopen(outputfile, "w");
+    pCopy = fopen(outputfile, "wb");
     if(NULL == pCopy) {
         SPC_MSG(LOGERR, "File open fail!");
         return SPC_ERR;
