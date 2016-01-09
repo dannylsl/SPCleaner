@@ -7,48 +7,42 @@ int SPC_TRIM(char *path) {
     FILE      *pCopy = NULL;
     int       lenth = 0;
     int       temp = 0;
+    int       i = 0;
+    int       j = 0;
     int       unResult = 0;
     long      size1 = 0;
     long      size2 = 0;
     float     effic = 0.00;
     char      outputfile[MAX_LINE] = "./copy/";
     char      fline[MAX_LINE];
-    char      *filename = NULL;
+    char      filename[MAX_LINE];
 
     /*变量初始化*/
     memset(fline, 0x00, MAX_LINE);
+    memset(filename, 0x00, MAX_LINE);
 
     SPC_INIT();
 
-#ifdef WIN32
-    if(access("./copy", 0) != 0) {
-        /*创建输出目录*/
-        unResult = mkdir("./copy");
-        if(unResult != 0) {
-            SPC_MSG(LOGERR, "Make directory fail!");
-            return SPC_ERR;
-        }
-    }
-#else
-    if(access("./copy", 0) != 0) {
-        /*创建输出目录*/
-        unResult = mkdir("./copy", 0755);
-        if(unResult != 0) {
-            SPC_MSG(LOGERR, "Make directory fail!");
-            return SPC_ERR;
-        }
-    }
-#endif
-
     /*获取输出文件路径*/
-    if(NULL == strrchr(path, 47)) {
-        /*增加非跨目录文件判断,即无‘/’出现*/
-        filename = path;
+    lenth = strlen(path);
+    for(i = 0; i < lenth; i++) {
+        if('.' == path[i]) {
+            if('/' == path[i+1]) {
+                i++;
+                continue;
+            }
+            if('.' == path[i+1]) {
+                i += 2;
+                continue;
+            }
+        }
+        filename[j] = path[i];
+        j++;
     }
-    else {
-        filename = strrchr(path, 47) + 1;
-    }
+
     strcat(outputfile, filename);
+
+    create_dir(outputfile);
 
     /*打开处理文件-读取*/
     pRead = fopen(path, "rb");
@@ -155,4 +149,41 @@ long int getFileSize(char *filename) {
     long int size = statbuf.st_size;
 
     return size;
+}
+
+int create_dir(char *sPathName) {
+    char DirName[MAX_LINE];
+    char *sFileName = NULL;
+    int  i = 0;
+    int  len = 0;
+    int  posit = 0;
+
+    memset(DirName, 0X00, MAX_LINE);
+
+    strcpy(DirName, sPathName);
+    len = strlen(DirName);
+    sFileName = strrchr(sPathName, 47) + 1;
+    posit = strlen(sFileName);
+    len -= posit;
+    for(i = 1;i < len; i++) {
+        if(DirName[i] == '/') {
+            DirName[i] = 0;
+            if(access(DirName, 0) != 0) {
+#ifdef WIN32
+                if(mkdir(DirName) == -1) {
+                    SPC_MSG(LOGERR, "Make directory fail!");
+                    return SPC_ERR;
+                }
+#else
+                if(mkdir(DirName, 0755) == -1) {
+                    SPC_MSG(LOGERR, "Make directory fail!");
+                    return SPC_ERR;
+                }
+#endif
+            }
+            DirName[i] = '/';
+        }
+    }
+
+    return 0;
 }

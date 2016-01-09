@@ -14,5 +14,6 @@
 long int  getFileSize(char *filename);
 int       SPC_TRIM(char *filename);
 char     *SPC_RTRIM(char *fline);
+int       create_dir(char *sPathName);
 
 #endif
