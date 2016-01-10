@@ -9,6 +9,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "SPCLog.h"
+#include "SPCTrim.h"
 
 #define MAX_LINE 100
 

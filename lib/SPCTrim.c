@@ -21,8 +21,6 @@ int SPC_TRIM(char *path) {
     memset(fline, 0x00, MAX_LINE);
     memset(filename, 0x00, MAX_LINE);
 
-    SPC_INIT();
-
     /*获取输出文件路径*/
     lenth = strlen(path);
     for(i = 0; i < lenth; i++) {
@@ -105,8 +103,8 @@ int SPC_TRIM(char *path) {
     /*输出文件前后差异*/
     size2 = getFileSize(outputfile);
     effic = (float)size2 / size1 * 100;
-    printf("size1 = %ld ,size2 = %ld \n", size1, size2);
-    printf("Code efficiency:%.02f%% \n", effic);
+    printf("\tsize1 = %ld ,size2 = %ld\n", size1, size2);
+    printf("\tCode efficiency:%.02f%%\n", effic);
 
     return SPC_OK;
 }

@@ -19,6 +19,11 @@ int SPC_FETCH(char *path, int flag) {
     if(S_ISREG(statbuf.st_mode)) {
         pFilepath = path;
         printf("%s\n", pFilepath);
+        unResult = SPC_TRIM(pFilepath);
+        if(unResult != 0) {
+            SPC_MSG(LOGERR, "SPCTrim error in SPC_FETCH!");
+            return SPC_ERR;
+        }
     }
     else if(S_ISDIR(statbuf.st_mode)) {
         unResult = get_file(path, flag);
@@ -65,6 +70,11 @@ int get_file(const char *dirname, int flag) {
             }
             if(S_ISREG(statbuf.st_mode)) {
                 printf("%s\n", buffer);
+                unResult = SPC_TRIM(buffer);
+                if(unResult != 0) {
+                    SPC_MSG(LOGERR, "SPCTrim error in get_files!");
+                    return SPC_ERR;
+                }
                 continue;
             }
             else if(S_ISDIR(statbuf.st_mode)) {
