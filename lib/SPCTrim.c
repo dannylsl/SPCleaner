@@ -13,13 +13,13 @@ int SPC_TRIM(char *path) {
     long      size1 = 0;
     long      size2 = 0;
     float     effic = 0.00;
-    char      outputfile[MAX_LINE] = "./copy/";
-    char      fline[MAX_LINE];
-    char      filename[MAX_LINE];
+    char      outputfile[LINE_MAX_LEN] = "./copy/";
+    char      fline[LINE_MAX_LEN];
+    char      filename[LINE_MAX_LEN];
 
     /*变量初始化*/
-    memset(fline, 0x00, MAX_LINE);
-    memset(filename, 0x00, MAX_LINE);
+    memset(fline, 0x00, LINE_MAX_LEN);
+    memset(filename, 0x00, LINE_MAX_LEN);
 
     /*获取输出文件路径*/
     lenth = strlen(path);
@@ -58,7 +58,7 @@ int SPC_TRIM(char *path) {
     }
 
     /*去空格处理*/
-    while(fgets(fline, MAX_LINE, pRead) != NULL) {
+    while(fgets(fline, LINE_MAX_LEN, pRead) != NULL) {
         lenth = strlen(fline);
         if(1 == lenth) {
             fline[0] = '\n';
@@ -150,13 +150,13 @@ long int getFileSize(char *filename) {
 }
 
 int create_dir(char *sPathName) {
-    char DirName[MAX_LINE];
+    char DirName[LINE_MAX_LEN];
     char *sFileName = NULL;
     int  i = 0;
     int  len = 0;
     int  posit = 0;
 
-    memset(DirName, 0X00, MAX_LINE);
+    memset(DirName, 0X00, LINE_MAX_LEN);
 
     strcpy(DirName, sPathName);
     len = strlen(DirName);
