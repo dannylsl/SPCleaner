@@ -8,8 +8,6 @@
 #include <sys/stat.h>
 #include "SPCLog.h"
 
-#define MAX_LINE 100
-
 //FUNCTIONS
 long int  getFileSize(char *filename);
 int       SPC_TRIM(char *filename);
