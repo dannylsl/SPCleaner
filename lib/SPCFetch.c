@@ -39,7 +39,7 @@ int SPC_FETCH(char *path, int flag) {
 int get_file(const char *dirname, int flag) {
     int unResult = 0;
     DIR *pDir = NULL;
-    char buffer[MAX_LINE];
+    char buffer[LINE_MAX_LEN];
     struct dirent *pDirent = NULL;
     struct stat statbuf;
 
@@ -59,7 +59,7 @@ int get_file(const char *dirname, int flag) {
                     continue;
                 }
             }
-            memset(buffer, 0x00, MAX_LINE);
+            memset(buffer, 0x00, LINE_MAX_LEN);
             strcat(buffer, dirname);
             strcat(buffer, "/");
             strcat(buffer, pDirent->d_name);
