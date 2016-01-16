@@ -9,4 +9,6 @@
 char *SPC_LTrim(char *line);
 char *SPC_RTrim(char *line);
 char *SPC_Trim(char *line);
+
+char *SPC_Strip(char *line);
 #endif

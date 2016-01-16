@@ -6,12 +6,11 @@ int GetCurrentPath(char buf[],char *pFileName)
 {
 
     char pidfile[64];
-    int bytes;
     int fd;
     sprintf(pidfile, "/proc/%d/cmdline", getpid());
 
     fd = open(pidfile, O_RDONLY, 0);
-    bytes = read(fd, buf, 256);
+    read(fd, buf, 256);
     close(fd);
     buf[MAX_PATH] = '\0';
     char *p = &buf[strlen(buf)];
@@ -131,21 +130,62 @@ int GetIniKeyInt(char *title,char *key,char *filename)
 }
 
 
-int GetSections(char *filename, struct Node* sectList) {
+
+int isSection(char* line, char *section) {
+    int len;
+
+    SPC_Trim(line);
+    SPC_Strip(line);
+    len = strlen(line);
+
+    if(len < 2) {
+        return FALSE;
+    }
+    if(line[0] == '[' && line[len - 1] == ']') {
+        strncpy(section, line + 1, len - 2);
+        section[len - 2] = '\0';
+        return TRUE;
+    }else{
+        return FALSE;
+    }
+}
+
+struct Node*GetSections(char *filename) {
     FILE *fp;
     char line[LINE_MAX_LEN];
+    char section[NAME_LEN];
+    struct Node *node, *ptr,*sectList;
+    ptr = sectList = NULL;
 
     if (NULL == (fp = fopen(filename,"rb"))) {
-        return SPC_ERR;
+        return NULL;
     }
 
     memset(line, 0x00, LINE_MAX_LEN);
-    while( feof(fp) != EOF) {
-        fgets(line, LINE_MAX_LEN, fp);
-        SPC_Trim(line);
+    while( fgets(line, LINE_MAX_LEN, fp) != NULL ) {
+        if(TRUE == isSection(line, section)) {
+            node = (struct Node*)malloc(sizeof(struct Node));
+            if(NULL == node) {
+                printf("[ERR] Failed to malloc Node\n");
+                exit(EXIT_FAILURE);
+            }
+            memset(node, 0x00, sizeof(struct Node));
+            strcpy(node->value, section);
+            node->next = NULL;
+
+            if(sectList == NULL) {
+                sectList = node;
+            } else {
+                ptr->next = node;
+            }
+            ptr = node;
+        }
+        memset(line, 0x00, LINE_MAX_LEN);
     }
 
-    return SPC_OK;
+    fclose(fp);
+
+    return sectList;
 }
 
 

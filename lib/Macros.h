@@ -6,4 +6,7 @@
 #define SPC_ERR         -1
 #define SPC_OK          0
 
+#define TRUE    1
+#define FALSE   0
+
 #endif

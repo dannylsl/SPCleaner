@@ -59,3 +59,21 @@ char *SPC_Trim(char *line) {
     return SPC_RTrim(SPC_LTrim(line));
 }
 
+
+
+char *SPC_Strip(char *line) {
+    int len;
+    char *end = NULL;
+
+    if(line == NULL)
+        return line;
+
+    len = strlen(line);
+    end = line + len - 1;
+
+    while(*end == '\n' || *end == '\r') {
+        *end = '\0';
+        end = end - 1;
+    }
+    return line;
+}
