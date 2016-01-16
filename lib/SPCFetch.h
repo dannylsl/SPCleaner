@@ -11,8 +11,6 @@
 #include "SPCLog.h"
 #include "SPCTrim.h"
 
-#define MAX_LINE 100
-
 //FUNCTIONS
 int    SPC_FETCH(char *path, int flag);
 int    get_file(const char *dirname, int flag);
