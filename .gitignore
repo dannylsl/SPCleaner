@@ -32,3 +32,9 @@
 *.dSYM/
 
 lib/SPCleaner.log
+# Vim Plugin
+.ycm_extra_conf.py
+.ycm_extra_conf.pyc
+
+# Vim Temp file
+*.swp

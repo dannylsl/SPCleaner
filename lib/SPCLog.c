@@ -50,15 +50,19 @@ int getTimeStamp(char *ts) {
 
 #endif
 
-    return 0;
+    return SPC_OK;
 }
 
 
 int SPC_INIT() {
 
-    if(NULL == (fp_log = fopen(LOGNAME, "wb"))) {
-        printf("LOGFILE[%s] open failed!\n", LOGNAME);
-        exit(EXIT_FAILURE);
+    if( fp_log != NULL ) {
+        return SPC_OK;
+    }else {
+        if(NULL == (fp_log = fopen(LOGNAME, "wb"))) {
+            printf("LOGFILE[%s] open failed!\n", LOGNAME);
+            exit(EXIT_FAILURE);
+        }
     }
 
     SPC_MSG(LOGDBG, "SPC_INIT called");
@@ -67,7 +71,9 @@ int SPC_INIT() {
 
 
 int SPC_FREE() {
-    fclose(fp_log);
+    if(NULL != fp_log) {
+        fclose(fp_log);
+    }
     return SPC_OK;
 }
 
@@ -133,6 +139,7 @@ void SPC_MSG(int level, const char *log) {
             sprintf(msgc,"[%s] %s", ts, logc);
             break;
     }
+
     //printf("%s\n",msg);
     printf("%s\n",msgc);
     fwrite(msg, strlen(msg), 1, fp_log);

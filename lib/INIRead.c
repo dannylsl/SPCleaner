@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include "Iniread.h"
+#include "INIRead.h"
 
 char g_szConfigPath[MAX_PATH];
 //获取当前程序目录
@@ -31,9 +30,9 @@ int GetCurrentPath(char buf[],char *pFileName)
 char *GetIniKeyString(char *title,char *key,char *filename)
 {
     FILE *fp;
-    char szLine[MAX_LEN];
-    char szLineTmp[MAX_LEN];
-    static char tmpstr[MAX_LEN]={0};
+    char szLine[LINE_MAX_LEN];
+    char szLineTmp[LINE_MAX_LEN];
+    static char tmpstr[LINE_MAX_LEN]={0};
 
     char rtnval;
     int i = 0;
@@ -129,4 +128,28 @@ char *GetIniKeyString(char *title,char *key,char *filename)
 int GetIniKeyInt(char *title,char *key,char *filename)
 {
     return atoi(GetIniKeyString(title,key,filename));
+}
+
+
+int GetSections(char *filename, struct Node* sectList) {
+    FILE *fp;
+    char line[LINE_MAX_LEN];
+
+    if (NULL == (fp = fopen(filename,"rb"))) {
+        return SPC_ERR;
+    }
+
+    memset(line, 0x00, LINE_MAX_LEN);
+    while( feof(fp) != EOF) {
+        fgets(line, LINE_MAX_LEN, fp);
+        SPC_Trim(line);
+    }
+
+    return SPC_OK;
+}
+
+
+int GetItems(char *filename, char *section, struct Node *itemList) {
+
+    return SPC_OK;
 }
