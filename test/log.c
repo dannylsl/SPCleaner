@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "SPCLog.h"
+#include "../lib/SPCLog.h"
 
 int main() {
     char ts[TS_LEN];

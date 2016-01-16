@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "SPCFetch.h"
+#include "../lib/SPCFetch.h"
 
 int main(int argc, char *argv[]) {
     int     flag = 0;

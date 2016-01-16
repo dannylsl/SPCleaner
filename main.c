@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdio.h>
 
 #define INF 1
 #define WAN 2
@@ -28,5 +29,6 @@ int main(int argc, char *argv[]) {
     print(INF, "Hello World!\n");
     print(WAN, "Hello World!\n");
     print(ERR, "Hello World!\n");
+
     return 0;
 }

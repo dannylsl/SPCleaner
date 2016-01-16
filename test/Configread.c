@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "Iniread.h"
+#include "../lib/Iniread.h"
 
 #define CONF_FILE_PATH "Config.ini"
 
