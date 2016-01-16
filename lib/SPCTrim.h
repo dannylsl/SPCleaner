@@ -9,7 +9,7 @@
 #include "SPCLog.h"
 #include "SPC_RTRIM.h"
 
-#define LINE_MAX_LEN 200
+#define LINE_MAX_LEN 1024
 
 //FUNCTIONS
 long int  getFileSize(char *filename);

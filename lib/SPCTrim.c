@@ -60,34 +60,19 @@ int SPC_TRIM(char *path) {
     /*去空格处理*/
     while(fgets(fline, LINE_MAX_LEN, pRead) != NULL) {
         lenth = strlen(fline);
-        if(1 == lenth) {
-            fline[0] = '\n';
-            unResult = fputs(fline, pCopy);
-            if(EOF == unResult) {
-                SPC_MSG(LOGERR, "File write fail!");
-            }
-        }
-        else if(lenth == LINE_MAX_LEN ) {
-            temp = LINE_MAX_LEN - 1;
-            if(fline[temp] != '\n') {
+        if(lenth == (LINE_MAX_LEN - 1) ) {
+            temp = LINE_MAX_LEN - 2;
+            if((fline[temp] != '\n') || (fline[temp] != '\r')) {
                 unResult = fputs(fline, pCopy);
                 if(EOF == unResult) {
                     SPC_MSG(LOGERR, "File write fail!");
                 }
                 continue;
             }
-            else {
-                unResult = fputs(SPC_RTRIM(fline), pCopy);
-                if(EOF == unResult) {
-                    SPC_MSG(LOGERR, "File write fail!");
-                }
-            }
         }
-        else {
-            unResult = fputs(SPC_RTRIM(fline), pCopy);
-            if(EOF == unResult) {
-                SPC_MSG(LOGERR, "File write fail!");
-            }
+        unResult = fputs(SPC_RTRIM(fline), pCopy);
+        if(EOF == unResult) {
+            SPC_MSG(LOGERR, "File write fail!");
         }
     }
 
