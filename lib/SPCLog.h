@@ -3,13 +3,12 @@
 
 #include <stdio.h>
 #include "ColorPrint.h"
+#include "Macros.h"
 
 #define TS_LEN          30
 #define MSG_MAX_LEN     1024
 #define MSG_TYPE_LEN    20
 
-#define SPC_ERR         -1
-#define SPC_OK          0
 
 // LOG TIME TYPE
 #define TS_USEC         1
@@ -24,7 +23,7 @@
 
 // CONFIG TOGGLE
 #define DEBUG 1
-#define TS_TYPE TS_DATE
+#define TS_TYPE TS_USEC
 #define LOGNAME "SPCleaner.log"
 
 // Global variant
