@@ -33,6 +33,8 @@ int SPC_FETCH(char *path, int flag) {
         }
     }
 
+    SPC_FREE();
+
     return SPC_OK;
 }
 

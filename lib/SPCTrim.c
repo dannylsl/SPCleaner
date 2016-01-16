@@ -109,36 +109,6 @@ int SPC_TRIM(char *path) {
     return SPC_OK;
 }
 
-char *SPC_RTRIM(char *fline) {
-    int     unLen = 0;
-
-    unLen = strlen(fline);
-    if(1 == unLen) {
-        fline[0] = '\0';
-        strcat(fline, N);
-    }
-    else {
-        for(unLen -= 1; unLen >= 0; unLen--) {
-            if( (' ' == fline[unLen]) || ('\t' == fline[unLen])
-                || ('\n' == fline[unLen])) {
-                if(0 == unLen) {
-                    fline[unLen] = '\0';
-                    strcat(fline, N);
-                    break;
-                }
-                continue;
-            }
-            else {
-                unLen++;
-                fline[unLen] = '\0';
-                strcat(fline, N);
-                break;
-            }
-        }
-    }
-    return fline;
-}
-
 long int getFileSize(char *filename) {
     struct stat statbuf;
     stat(filename, &statbuf);

@@ -7,19 +7,13 @@
 #include <string.h>
 #include <sys/stat.h>
 #include "SPCLog.h"
+#include "SPC_RTRIM.h"
 
 #define LINE_MAX_LEN 200
-
-#ifdef WIN32
-#define N "\r\n\0"
-#else
-#define N "\n\0"
-#endif
 
 //FUNCTIONS
 long int  getFileSize(char *filename);
 int       SPC_TRIM(char *filename);
-char     *SPC_RTRIM(char *fline);
 int       create_dir(char *sPathName);
 
 #endif
