@@ -15,6 +15,7 @@
 #else
 #define N "\n\0"
 #endif
+
 //FUNCTIONS
 long int  getFileSize(char *filename);
 int       SPC_TRIM(char *filename);
