@@ -2,10 +2,10 @@
 #define __INIREAD_H
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <stdlib.h>
 #include <stdarg.h>
 #include "SPCLog.h"
 #include "SPCString.h"
@@ -22,7 +22,8 @@ char *GetIniKeyString(char *title,char *key,char *filename);
 int GetIniKeyInt(char *title,char *key,char *filename);
 
 int isSection(char* line, char *section);
-struct Node *GetSections(char *filenamet);
-int GetItems(char *filename, char *section, struct Node *itemList);
+int isItem(char* line, struct Node *item);
+struct List *GetSections(char *filenamet);
+struct List *GetItems(char *filename, char *section);
 
 #endif

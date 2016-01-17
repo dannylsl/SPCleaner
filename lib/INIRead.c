@@ -150,18 +150,49 @@ int isSection(char* line, char *section) {
     }
 }
 
-struct Node*GetSections(char *filename) {
+
+int isItem(char* line, struct Node *item) {
+    char key[NAME_LEN];
+    char *ptr = line;
+    int index = 0;
+    memset(key, 0x00, NAME_LEN);
+
+    SPC_Trim(line);
+    SPC_Strip(line);
+
+    if(line[0] == ';' || line[0] == '#') {
+        return FALSE;
+    }
+
+    while(*ptr != '=') {
+        key[index++] = *ptr;
+        ptr++;
+    }
+    strcpy(item->value, ++ptr);
+    strcpy(item->key, key);
+
+    return TRUE;
+}
+
+struct List*GetSections(char *filename) {
     FILE *fp;
     char line[LINE_MAX_LEN];
     char section[NAME_LEN];
-    struct Node *node, *ptr,*sectList;
-    ptr = sectList = NULL;
+    struct List *sectList = NULL;
+    struct Node *node = NULL;
 
     if (NULL == (fp = fopen(filename,"rb"))) {
+        printf("Failed to open[%s]\n", filename);
         return NULL;
     }
 
+    sectList = (struct List*)malloc(sizeof(struct List));
+    sectList->len = 0;
+    sectList->head = sectList->tail = NULL;
+
     memset(line, 0x00, LINE_MAX_LEN);
+    memset(section, 0x00, NAME_LEN);
+
     while( fgets(line, LINE_MAX_LEN, fp) != NULL ) {
         if(TRUE == isSection(line, section)) {
             node = (struct Node*)malloc(sizeof(struct Node));
@@ -170,15 +201,10 @@ struct Node*GetSections(char *filename) {
                 exit(EXIT_FAILURE);
             }
             memset(node, 0x00, sizeof(struct Node));
+            strcpy(node->key, section);
             strcpy(node->value, section);
             node->next = NULL;
-
-            if(sectList == NULL) {
-                sectList = node;
-            } else {
-                ptr->next = node;
-            }
-            ptr = node;
+            SPCList_append(sectList, node);
         }
         memset(line, 0x00, LINE_MAX_LEN);
     }
@@ -189,7 +215,46 @@ struct Node*GetSections(char *filename) {
 }
 
 
-int GetItems(char *filename, char *section, struct Node *itemList) {
+struct List *GetItems(char *filename, char *sectName) {
+    FILE *fp;
+    char line[LINE_MAX_LEN];
+    char section[NAME_LEN];
+    struct List *itemList = NULL;
+    struct Node *node = NULL;
+    struct Node tmp_node;
 
-    return SPC_OK;
+    if( NULL == (fp = fopen(filename, "rb"))) {
+        printf("Failed to open[%s]\n", filename);
+        return NULL;
+    }
+
+    memset(line, 0x00, LINE_MAX_LEN);
+    memset(section, 0x00, NAME_LEN);
+    itemList = (struct List*)malloc(sizeof(struct List));
+    itemList->len = 0;
+    itemList->head = itemList->tail = NULL;
+
+    while(fgets(line, LINE_MAX_LEN, fp) != NULL) {
+        if(TRUE == isSection(line, section)) {
+            if( 0 == strcmp(section, sectName)) {
+                while(fgets(line, LINE_MAX_LEN, fp) != NULL) {
+                    memset(section, 0x00, NAME_LEN);
+                    if(TRUE == isSection(line, section)) {
+                        break;
+                    }
+                    if(TRUE == isItem(line, &tmp_node)) {
+                        node = (struct Node*)malloc(sizeof(struct Node));
+                        node->next = NULL;
+                        strcpy(node->key,tmp_node.key);
+                        strcpy(node->value,tmp_node.value);
+                        SPCList_append(itemList, node);
+                    }
+                }
+            }
+            break;
+        }
+    }
+
+    fclose(fp);
+    return itemList;
 }
