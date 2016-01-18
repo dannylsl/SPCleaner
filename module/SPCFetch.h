@@ -8,7 +8,7 @@
 #include <dirent.h>
 #include <string.h>
 #include <stdlib.h>
-#include "SPCLog.h"
+#include "../lib/SPCLog.h"
 #include "SPCTrim.h"
 
 //FUNCTIONS

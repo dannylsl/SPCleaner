@@ -6,8 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
-#include "SPCLog.h"
-#include "SPC_RTRIM.h"
+#include "../lib/SPCLog.h"
+#include "../lib/SPCString.h"
 
 #define LINE_MAX_LEN 1024
 

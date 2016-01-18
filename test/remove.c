@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "../lib/SPCTrim.h"
+#include "../module/SPCTrim.h"
 
 int main(int argc, char *argv[]) {
     char    *filename = NULL;

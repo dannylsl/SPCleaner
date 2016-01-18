@@ -70,7 +70,7 @@ int SPC_TRIM(char *path) {
                 continue;
             }
         }
-        unResult = fputs(SPC_RTRIM(fline), pCopy);
+        unResult = fputs(SPC_RTrim(fline), pCopy);
         if(EOF == unResult) {
             SPC_MSG(LOGERR, "File write fail!");
         }
