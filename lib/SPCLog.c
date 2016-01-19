@@ -71,6 +71,7 @@ int SPC_INIT() {
 
 
 int SPC_FREE() {
+    SPC_MSG(LOGDBG, "SPC_FREE called");
     if(NULL != fp_log) {
         fclose(fp_log);
     }

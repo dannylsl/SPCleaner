@@ -1,3 +1,6 @@
+CC=gcc
+CFLAGS=-Wall -g
+BIN = SPCleaner
 dirs = lib \
 	   module \
 	   test
@@ -5,9 +8,15 @@ dirs = lib \
 MAKE=make
 
 .PHONY: all clean $(dirs)
-all: $(dirs)
-
-clean: $(dirs)
+all: $(dirs) $(BIN)
 
 $(dirs):
 	$(MAKE) -C $@ $(MAKECMDGOALS)
+
+$(BIN): SPCleaner.c \
+		lib/SPCLog.o lib/INIRead.o lib/SPCString.o lib/SPCList.o
+	$(CC) $(CFLAG) -o $@ $^
+
+clean: $(dirs)
+	rm $(BIN)
+
