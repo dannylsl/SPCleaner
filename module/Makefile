@@ -18,4 +18,4 @@ SPCHAnalyser.o: SPCHAnalyser.c SPCHAnalyser.h
 
 .PHONY:clean
 clean:
-	rm *.so *.o
+	rm *.so *.o *.gch

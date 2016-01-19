@@ -1,20 +1,13 @@
-dirs = lib module test
+dirs = lib \
+	   module \
+	   test
 
-SUBDIRS := $(dirs)
-clean_dirs:=$(addprefix _clean_, $(SUBDIRS))
+MAKE=make
 
-.PHNOY: all $(SUBDIRS) clean
+.PHONY: all clean $(dirs)
+all: $(dirs)
 
-all: $(SUBDIRS)
-$(SUBDIRS):
-	make -C lib;
-	make -C module;
-	make -C test;
+clean: $(dirs)
 
-
-$(clean_dirs):
-	$(MAKE) -C $(patsubst _clean_%,%,$@) clean
-clean: $(clean_dirs)
-
-
-
+$(dirs):
+	$(MAKE) -C $@ $(MAKECMDGOALS)
