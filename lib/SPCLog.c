@@ -4,7 +4,7 @@
 #include <string.h>
 #include "SPCLog.h"
 
-// Extern Global Variant
+// External Global Variant
 extern FILE *fp_log;
 
 int getTimeStamp(char *ts) {

@@ -15,8 +15,9 @@ $(dirs):
 
 $(BIN): SPCleaner.c \
 		lib/SPCLog.o lib/INIRead.o lib/SPCString.o lib/SPCList.o
-	$(CC) $(CFLAG) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^
 
 clean: $(dirs)
 	rm $(BIN)
+	rm SPCleaner.log
 

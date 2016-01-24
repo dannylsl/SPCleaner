@@ -10,11 +10,11 @@ all:$(SOS) $(OBJS)
 	$(CC) $^ -fPIC -shared $(CFLAGS) -o $@
 
 SPCTrim.o: SPCTrim.c SPCTrim.h
-	$(CC) $(CFLAG) -c $^
+	$(CC) $(CFLAGS) -c $^
 SPCFetch.o: SPCFetch.c SPCFetch.h
-	$(CC) $(CFLAG) -c $^
+	$(CC) $(CFLAGS) -c $^
 SPCHAnalyser.o: SPCHAnalyser.c SPCHAnalyser.h
-	$(CC) $(CFLAG) -c $^
+	$(CC) $(CFLAGS) -c $^
 
 .PHONY:clean
 clean:
