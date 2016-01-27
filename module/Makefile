@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS= -Wall -g
+CFLAGS=-Wall -g
 SRCS=$(wildcard *.c)
 SOS=$(patsubst %.c, %.so, $(SRCS))
 OBJS=$(patsubst %.c, %.o, $(SRCS))
@@ -10,11 +10,13 @@ all:$(SOS) $(OBJS)
 	$(CC) $^ -fPIC -shared $(CFLAGS) -o $@
 
 SPCTrim.o: SPCTrim.c SPCTrim.h
-	$(CC) $(CFLAG) -c $^
+	$(CC) $(CFLAGS) -c $^
 SPCFetch.o: SPCFetch.c SPCFetch.h
-	$(CC) $(CFLAG) -c $^
+	$(CC) $(CFLAGS) -c $^
 SPCHAnalyser.o: SPCHAnalyser.c SPCHAnalyser.h
-	$(CC) $(CFLAG) -c $^
+	$(CC) $(CFLAGS) -c $^
+SPCStatis.o: SPCStatis.c SPCStatis.h
+	$(CC) $(CFLAGS) -c $^
 
 .PHONY:clean
 clean:
