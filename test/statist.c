@@ -13,5 +13,7 @@ int main(int argc, char *argv[]) {
     filename = argv[1];
     SPC_STATIS(filename);
 
+    SPC_FREE();
+
     return 0;
 }

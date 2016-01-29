@@ -19,7 +19,7 @@ int SPC_STATIS(char *filepath) {
     pRead = fopen(filepath, "rb");
     if(NULL == pRead) {
         SPC_MSG(LOGERR, "File open fail!");
-    return SPC_ERR;
+        return SPC_ERR;
     }
 
     while(fgets(fileline, LINE_MAX_LEN, pRead) != NULL) {
