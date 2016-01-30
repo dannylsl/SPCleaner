@@ -13,6 +13,8 @@ SPCList.o: SPCList.c SPCList.h
 	$(CC) $(CFLAGS) -c $^
 INIRead.o: INIRead.c INIRead.h
 	$(CC) $(CFLAGS) -c $^
+SPCStack.o: SPCStack.c SPCStack.h
+	$(CC) $(CFLAGS) -c $^
 
 
 .PHONY:clean

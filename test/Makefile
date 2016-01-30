@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-Wall -g
 LIB_PATH=../lib/
 MOD_PATH=../module/
-TARGETS=log remove ini trim fetch
+TARGETS=log remove ini trim fetch stack
 
 all:$(TARGETS)
 
@@ -15,6 +15,8 @@ ini: ini.c $(LIB_PATH)INIRead.o $(LIB_PATH)SPCString.o $(LIB_PATH)SPCList.o
 trim: trim.c $(LIB_PATH)SPCString.o $(LIB_PATH)SPCLog.o
 	$(CC) $(CFLAGS) -o $@ $^
 fetch: fetch.c $(MOD_PATH)SPCFetch.o $(MOD_PATH)SPCTrim.o $(LIB_PATH)SPCLog.o $(LIB_PATH)SPCString.o
+	$(CC) $(CFLAGS) -o $@ $^
+stack: stack.c $(LIB_PATH)SPCLog.o $(LIB_PATH)SPCStack.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 .PHONY:clean
