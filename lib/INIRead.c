@@ -137,7 +137,6 @@ int isSection(char* line, char *section) {
     SPC_Trim(line);
     SPC_Strip(line);
     len = strlen(line);
-
     if(len < 2) {
         return FALSE;
     }
@@ -154,11 +153,15 @@ int isSection(char* line, char *section) {
 int isItem(char* line, struct Node *item) {
     char key[NAME_LEN];
     char *ptr = line;
-    int index = 0;
+    int len,index = 0;
     memset(key, 0x00, NAME_LEN);
 
     SPC_Trim(line);
     SPC_Strip(line);
+    len = strlen(line);
+    if(len < 2) {
+        return FALSE;
+    }
 
     if(line[0] == ';' || line[0] == '#') {
         return FALSE;
