@@ -62,8 +62,8 @@ int file_process(const char *path, struct List *module_list) {
 }
 
 
-int traverse(const char *path, const char* parent_dir,
-        struct List *module_list, struct List *file_suffix_list) {
+int traverse(const char *path, struct List *module_list,
+        struct List *file_suffix_list) {
 
     struct dirent *entry;
     DIR *dirp;
@@ -73,11 +73,6 @@ int traverse(const char *path, const char* parent_dir,
 
     memset(current_path, 0x00, PATH_MAX_LEN);
     stk = SPCStack_init();
-
-    if( parent_dir != NULL) {
-        strcpy(current_path, parent_dir);
-        SPC_MSG(LOGINF,current_path);
-    }
 
     if( NULL == (dirp = opendir(path))) {
         SPC_MSG(LOGERR, path);
@@ -135,6 +130,7 @@ int traverse(const char *path, const char* parent_dir,
 
 void usage() {
     printf("SPCleaner usage.");
+    SPC_MSG(LOGINF,"Hello %d %s\n", 100,"world");
     return;
 }
 
@@ -156,7 +152,7 @@ int main(int argc, char *argv[]) {
     SPC_MSG(LOGDBG, argv[1]);
 
     if(FT_DIR == file_or_dir(path)) {
-        traverse(path, NULL, module_list, file_suffix_list);
+        traverse(path, module_list, file_suffix_list);
     } else if(FT_FILE == file_or_dir(path)){
         file_process(path, module_list);
     }
