@@ -14,7 +14,7 @@ $(dirs):
 	$(MAKE) -C $@ $(MAKECMDGOALS)
 
 $(BIN): SPCleaner.c \
-		lib/SPCLog.o lib/INIRead.o lib/SPCString.o lib/SPCList.o
+		lib/SPCLog.o lib/INIRead.o lib/SPCString.o lib/SPCList.o lib/SPCStack.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 clean: $(dirs)

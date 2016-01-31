@@ -5,6 +5,7 @@
 #include <errno.h>
 #include "lib/SPCLog.h"
 #include "lib/SPCList.h"
+#include "lib/SPCStack.h"
 #include "lib/INIRead.h"
 
 #define FT_DIR   0
@@ -56,24 +57,26 @@ int file_or_dir(const char *path) {
 
 int file_process(const char *path, struct List *module_list) {
 
-    SPC_MSG(LOGDBG, path);
+    SPC_MSG(LOGINF, path);
     return 0;
 }
 
 
-int traverse(const char *path,
-        const char* parent_dir,
-        struct List *module_list,
-        struct List *file_suffix_list) {
+int traverse(const char *path, const char* parent_dir,
+        struct List *module_list, struct List *file_suffix_list) {
 
     struct dirent *entry;
     DIR *dirp;
     char current_path[PATH_MAX_LEN];
+    struct Stack *stk;
+    struct Element *elem;
 
     memset(current_path, 0x00, PATH_MAX_LEN);
+    stk = SPCStack_init();
 
     if( parent_dir != NULL) {
         strcpy(current_path, parent_dir);
+        SPC_MSG(LOGINF,current_path);
     }
 
     if( NULL == (dirp = opendir(path))) {
@@ -82,30 +85,51 @@ int traverse(const char *path,
         exit(EXIT_FAILURE);
     }
 
+    elem = SPCStack_new_elem(path, dirp);
+    SPCStack_push(stk, elem);
+
     if(chdir(path) < 0) {
         SPC_MSG(LOGERR, "DIR CHANGE ERROR");
         exit(EXIT_FAILURE);
     }
 
-    while((entry = readdir(dirp)) != NULL) {
+    while(stk->size != 0) {
+        entry = readdir(dirp);
+        if(entry == NULL) {
+            SPCStack_pop(stk, elem);
+            chdir("..");
+            closedir(dirp);
+            if(stk->tail == NULL) {
+                break;
+            }
+            elem = stk->tail;
+            dirp = elem->dirp;
+            continue;
+        }
         if( 0 == strcmp(entry->d_name,".")
             || (0 == strcmp(entry->d_name,".."))) {
             continue;
         }
 
         if(FT_DIR == file_or_dir(entry->d_name)) {
-            sprintf(current_path,"%s/%s", path, entry->d_name);
-            SPC_MSG(LOGDBG,current_path);
-            traverse(entry->d_name, current_path, module_list, file_suffix_list);
+            if( NULL == (dirp = opendir(entry->d_name))) {
+                SPC_MSG(LOGERR, path);
+                SPC_MSG(LOGERR, strerror(errno));
+                exit(EXIT_FAILURE);
+            }
+
+            elem = SPCStack_new_elem(entry->d_name,dirp);
+            SPCStack_push(stk, elem);
+            chdir(entry->d_name);
         }else if(FT_FILE == file_or_dir(entry->d_name)) {
-            sprintf(current_path,"%s/%s", path, entry->d_name);
+            memset(current_path, 0x00, PATH_MAX_LEN);
+            SPCStack_get_path(stk, current_path);
+            strcat(current_path,"/");
+            strcat(current_path,entry->d_name);
             file_process(current_path, module_list);
         }
-
     }
 
-    chdir("..");
-    closedir(dirp);
     return 0;
 }
 

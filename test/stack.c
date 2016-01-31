@@ -10,15 +10,15 @@ int main() {
     stk = SPCStack_init();
 
     SPCStack_print(stk);
-    elem = SPCStack_new_elem("ELEM1");
+    elem = SPCStack_new_elem("ELEM1", NULL);
     SPCStack_push(stk, elem);
-    elem = SPCStack_new_elem("ELEM2");
+    elem = SPCStack_new_elem("ELEM2", NULL);
     SPCStack_push(stk, elem);
-    elem = SPCStack_new_elem("ELEM3");
+    elem = SPCStack_new_elem("ELEM3", NULL);
     SPCStack_push(stk, elem);
-    elem = SPCStack_new_elem("ELEM4");
+    elem = SPCStack_new_elem("ELEM4", NULL);
     SPCStack_push(stk, elem);
-    elem = SPCStack_new_elem("ELEM5");
+    elem = SPCStack_new_elem("ELEM5", NULL);
     SPCStack_push(stk, elem);
     SPCStack_print(stk);
 
