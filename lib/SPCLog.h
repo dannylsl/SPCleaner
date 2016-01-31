@@ -32,7 +32,7 @@ FILE *fp_log;
 // FUNCTIONS
 int getTimeStamp(char *ts);
 int SPC_INIT();
-void SPC_MSG(int level, const char* msg);
+void SPC_MSG(int level, const char *format, ...);
 int SPC_FREE();
 
 #endif

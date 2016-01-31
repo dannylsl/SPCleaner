@@ -2,6 +2,7 @@
 #include <time.h>
 #include <sys/time.h>
 #include <string.h>
+#include <stdarg.h>
 #include "SPCLog.h"
 
 // External Global Variant
@@ -85,10 +86,11 @@ char *colorMsg(const char *msg, const char *color, char *msgc) {
 }
 
 
-void SPC_MSG(int level, const char *log) {
+void SPC_MSG(int level, const char *format, ...) {
 
     char ts[TS_LEN];
     char msg[MSG_MAX_LEN + 1];
+    char log[MSG_MAX_LEN + 1];
     char logc[MSG_MAX_LEN + 1];
     char msgc[MSG_MAX_LEN + 1];
     char type[MSG_TYPE_LEN + 1];
@@ -96,6 +98,7 @@ void SPC_MSG(int level, const char *log) {
 
     memset(msg, 0x00, MSG_MAX_LEN);
     memset(msgc, 0x00, MSG_MAX_LEN);
+    memset(log, 0x00, MSG_MAX_LEN);
     memset(logc, 0x00, MSG_MAX_LEN);
     memset(type, 0x00, MSG_TYPE_LEN);
     memset(typec, 0x00, MSG_TYPE_LEN);
@@ -108,6 +111,11 @@ void SPC_MSG(int level, const char *log) {
         printf("%s\n", msgc);
         exit(EXIT_FAILURE);
     }
+
+    va_list argptr;
+    va_start(argptr, format);
+    vsprintf(log, format, argptr);
+    va_end(argptr);
 
     switch(level) {
         case LOGINF:

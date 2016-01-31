@@ -14,6 +14,7 @@ int main() {
     SPC_MSG(LOGERR,"LOGERR MESSAGE");
     SPC_MSG(LOGDBG,"LOGDBG MESSAGE");
     SPC_MSG(10,"TYPE ERROR MESSAGE");
+    SPC_MSG(LOGDBG,"%d + %c = %s", 1,'2',"3");
 
     SPC_FREE();
     return 0;

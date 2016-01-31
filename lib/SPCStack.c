@@ -9,7 +9,7 @@ void SPCStack_print(struct Stack *stk) {
     printf("==============================\n");
     ptr = stk->tail;
     while(ptr != NULL) {
-        printf("%s\t%x\n",ptr->data,ptr->dirp);
+        printf("%s\t%lx\n",ptr->data,(unsigned long)ptr->dirp);
         ptr = ptr->before;
     }
     printf("\n");
